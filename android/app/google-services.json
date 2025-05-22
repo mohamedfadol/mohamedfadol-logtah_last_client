@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "592048402148",
+    "project_id": "diligov-members",
+    "storage_bucket": "diligov-members.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592048402148:android:bd149653d1ae27c0b386f1",
+        "android_client_info": {
+          "package_name": "com.diligov_members.doc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkvpFbd32dRQUizKsSV2Pt_EfIVv5VAPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

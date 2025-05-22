@@ -1,0 +1,5 @@
+# .gitignore
+build/
+.dart_tool/
+*.apk
+*.dill
