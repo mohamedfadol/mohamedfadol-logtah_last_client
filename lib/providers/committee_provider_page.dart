@@ -66,24 +66,6 @@ class CommitteeProviderPage extends ChangeNotifier{
     }
   }
 
-  // Future getListOfCommittees (context) async{
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
-  //   print(user.businessId);
-  //   var response = await networkHandler.get('/get-list-committees/${user.businessId.toString()}');
-  //   if (response.statusCode == 200 || response.statusCode == 201) {
-  //     logger.d("get-list-committees form provider response statusCode == 200");
-  //     var responseData = json.decode(response.body) ;
-  //     var boardsData = responseData['data'];
-  //     committeesData = DataComm.fromJson(boardsData);
-  //     logger.d(committeesData!.committees!.length);
-  //     notifyListeners();
-  //   } else {
-  //     logger.d("get-list-committees form provider response statusCode unknown");
-  //     logger.d(response.statusCode);
-  //     logger.d(json.decode(response.body)['message']);
-  //   }
-  // }
 
   void setYearSelected(year) async {
     _yearSelected =  year;
@@ -156,68 +138,6 @@ class CommitteeProviderPage extends ChangeNotifier{
     }
   }
 
-  Future<bool> updateCommittee(Map<String, dynamic> data) async {
-    setLoading(true);
-    notifyListeners();
-
-    var response = await networkHandler.post1('/update-committee', data);
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      logger.d("Committee updated successfully!");
-
-      // Refresh the committee list
-      await getListOfMeetingsCommitteesByFilter(yearSelected);
-
-      setLoading(false);
-      notifyListeners();
-      return true;
-    } else {
-      setLoading(false);
-      notifyListeners();
-      logger.e("Failed to update committee: ${json.decode(response.body)['message']}");
-      return false;
-    }
-  }
-
-
-  Future<bool> deleteCommittee(Committee deleteCommittee) async {
-    setIsBack(true);
-    setLoading(true);
-
-    final index = committeesData!.committees!.indexWhere((c) => c.id == deleteCommittee.id);
-    if (index == -1) {
-      logger.e("Committee not found in list");
-      return false;
-    }
-
-    // Send request to backend to delete
-    Map<String, dynamic> data = {
-      'business_id': _userId.toString(),
-      'committee_id': deleteCommittee.id.toString(),
-    };
-
-    var response = await networkHandler.post1('/delete-committee', data);
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      logger.d("Deleted committee successfully!");
-
-      // Fetch the latest committee list from the API to ensure data consistency
-      await getListOfMeetingsCommitteesByFilter(yearSelected);
-
-      setIsBack(false);
-      setLoading(false);
-      notifyListeners();  // Refresh UI
-
-      return true;
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-
-      logger.e("Failed to delete committee: ${json.decode(response.body)['message']}");
-      return false;
-    }
-  }
 
 
 
@@ -238,36 +158,6 @@ class CommitteeProviderPage extends ChangeNotifier{
       logger.d("get-list-committees form provider response statusCode unknown");
       logger.d(response.statusCode);
       logger.d(json.decode(response.body)['message']);
-    }
-  }
-
-  Future<void> insertCommittee(Map<String, dynamic> data)async{
-    setLoading(true);
-    notifyListeners();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
-    var response = await networkHandler.post1('/insert-new-committee', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      setIsBack(true);
-      notifyListeners();
-      logger.d("insert new committee response statusCode == 200");
-      var responseData = json.decode(response.body) ;
-      var responseCommitteeData = responseData['data'];
-      _committee = Committee.fromJson(responseCommitteeData['committee']);
-      Future.delayed(Duration.zero, () {
-        committeesData!.committees!.add(_committee);
-        logger.d(committeesData!.committees!.length!);
-      });
-      setIsBack(true);
-      setLoading(true);
-      notifyListeners();
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      logger.d("insert new committee response statusCode unknown");
-      logger.d(response.statusCode);
-      print(json.decode(response.body)['message']);
     }
   }
 

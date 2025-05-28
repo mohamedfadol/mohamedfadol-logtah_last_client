@@ -3,6 +3,7 @@ import 'package:diligov_members/models/committee_model.dart';
 import 'package:diligov_members/models/member.dart';
 import 'package:diligov_members/models/minutes_model.dart';
 import 'package:diligov_members/models/user.dart';
+import 'package:flutter/material.dart';
 
 import 'agenda_model.dart';
 
@@ -31,13 +32,13 @@ class Meeting {
   String? meetingPublishedStatus;
   String? meetingSerialNumber;
   String? meetingFile;
-  bool? isActive;
-  int? isAllDays;
+  bool isActive = false;
+  bool isAllDays = false;
   int? createdBy;
   bool? hasNextMeeting;
   bool? isVisible;
   int? previousMeetingId;
-  // Color backGroundColor   = Colors.red;
+  Color backGroundColor   = Colors.blue;
   Board? board;
   User? user;
   bool? isExpanded = false;
@@ -66,8 +67,6 @@ class Meeting {
         this.meetingPublishedStatus,
         this.meetingSerialNumber,
         this.meetingFile,
-        this.isActive,
-        this.isAllDays,
         this.createdBy,
         this.board,
         this.committee,
@@ -96,8 +95,8 @@ class Meeting {
     meetingPublishedStatus = json['meeting_published'];
     meetingSerialNumber = json['meeting_serial_number'];
     meetingFile = json['meeting_file'];
-    isAllDays = json['is_all_days'];
-    isActive = json['is_active'];
+    isAllDays = json['is_all_days']  = false;
+    isActive = json['is_active'] = false;
     if (json['attendances'] != null) {
       attendances = <Member>[];
       json['attendances'].forEach((v) {

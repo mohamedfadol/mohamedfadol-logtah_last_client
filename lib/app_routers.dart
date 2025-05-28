@@ -38,7 +38,6 @@ import 'package:diligov_members/views/modules/reports_views/reports_list_views.d
 import 'package:diligov_members/views/modules/resolutions_views/resolutions_list_views.dart';
 import 'package:diligov_members/views/searching_views/full_screen_search_views.dart';
 import 'package:diligov_members/views/tab_bar_view/member_and_committees.dart';
-import 'package:diligov_members/views/members_view/insert_new_member.dart';
 import 'package:diligov_members/views/members_view/members_list.dart';
 import 'package:diligov_members/views/members_view/quick_access_member_list_view.dart';
 import 'package:diligov_members/views/user/edit_profile.dart';
@@ -47,13 +46,9 @@ import 'package:diligov_members/widgets/build_meeting_form_card.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
-  // static const String home = '/';
-  // static const String details = '/details';
-  // static const String settings = '/settings';
 
   static Map<String, WidgetBuilder> routes =  {
     "/loginPage" : (context) => LoginScreen(),
-    // '/homePage': (context) => const Homepage(),
     '/dashboardHome': (context) => const DashboardHomeScreen(),
     ProfileUser.routeName: (context) => const ProfileUser(),
     NominationsList.routeName: (context) => const NominationsList(),
@@ -61,7 +56,6 @@ class AppRoutes {
     SuiteKpiListView.routeName: (context) => const SuiteKpiListView(),
     CreateSuiteKpiForm.routeName: (context) => const CreateSuiteKpiForm(),
     DisclosuresHowMenus.routeName: (context) => const DisclosuresHowMenus(),
-    // CompetitionsWithCompanyForm.routeName: (context) => const CompetitionsWithCompanyForm(),
     CompetitionsQuestionsWithCompanyListViews.routeName: (context) => const CompetitionsQuestionsWithCompanyListViews(),
     CompetitionsQuestionsWithRelatedPartiesListViews.routeName: (context) => const CompetitionsQuestionsWithRelatedPartiesListViews(),
     CompetitionsQuestionsWithConfirmationOfIndependenceListViews.routeName: (context) => const CompetitionsQuestionsWithConfirmationOfIndependenceListViews(),
@@ -69,7 +63,6 @@ class AppRoutes {
     EditProfile.routeName: (context) => const EditProfile(),
     Setting.routeName: (context) => const Setting(),
     MembersList.routeName: (context) => const MembersList(),
-    InsertNewMember.routeName: (context) => const InsertNewMember(),
     MemberAndCommittees.routeName: (context) => const MemberAndCommittees(),
     BoardsListViews.routeName: (context) => const BoardsListViews(),
     CommitteeList.routeName: (context) => const CommitteeList(),

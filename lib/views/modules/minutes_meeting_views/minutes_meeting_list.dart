@@ -295,39 +295,39 @@ class _MinutesMeetingListState extends State<MinutesMeetingList> {
                                                                                 PagePdf(minute: minute)),
                                                                       );
                                                                     })),
-                                                        minute.minuteFile !=
-                                                                null
-                                                            ? PopupMenuItem<
-                                                                    int>(
-                                                                value: 0,
-                                                                child:
-                                                                    CustomElevatedButton(
-                                                                        verticalPadding:
-                                                                            0.0,
-                                                                        text: AppLocalizations.of(context)!
-                                                                            .notes,
-                                                                        icon: Icons
-                                                                            .remove_red_eye_outlined,
-                                                                        textColor:
-                                                                            Colors
-                                                                                .white,
-                                                                        buttonBackgroundColor:
-                                                                            Colour()
-                                                                                .buttonBackGroundRedColor,
-                                                                        horizontalPadding:
-                                                                            10.0,
-                                                                        callFunction:
-                                                                            () async {
-                                                                          Navigator.of(context)
-                                                                              .push(
-                                                                            MaterialPageRoute(builder: (context) => EditLaboratoryLocalFileProcessing(minute: minute)),
-                                                                          );
-                                                                        }))
-                                                            : PopupMenuItem<
-                                                                int>(
-                                                                value: 0,
-                                                                child: null,
-                                                              ),
+                                                        // minute.minuteFile !=
+                                                        //         null
+                                                        //     ? PopupMenuItem<
+                                                        //             int>(
+                                                        //         value: 0,
+                                                        //         child:
+                                                        //             CustomElevatedButton(
+                                                        //                 verticalPadding:
+                                                        //                     0.0,
+                                                        //                 text: AppLocalizations.of(context)!
+                                                        //                     .notes,
+                                                        //                 icon: Icons
+                                                        //                     .remove_red_eye_outlined,
+                                                        //                 textColor:
+                                                        //                     Colors
+                                                        //                         .white,
+                                                        //                 buttonBackgroundColor:
+                                                        //                     Colour()
+                                                        //                         .buttonBackGroundRedColor,
+                                                        //                 horizontalPadding:
+                                                        //                     10.0,
+                                                        //                 callFunction:
+                                                        //                     () async {
+                                                        //                   Navigator.of(context)
+                                                        //                       .push(
+                                                        //                     MaterialPageRoute(builder: (context) => EditLaboratoryLocalFileProcessing(minute: minute)),
+                                                        //                   );
+                                                        //                 }))
+                                                        //     : PopupMenuItem<
+                                                        //         int>(
+                                                        //         value: 0,
+                                                        //         child: null,
+                                                        //       ),
                                                         PopupMenuItem<int>(
                                                             value: 1,
                                                             child:
@@ -375,61 +375,61 @@ class _MinutesMeetingListState extends State<MinutesMeetingList> {
                                                                     dialogToMakeSignMinute(minute)
                                                             )
                                                         ),
-                                                        PopupMenuItem<int>(
-                                                          value: 3,
-                                                          child:
-                                                              CustomElevatedButton(
-                                                            verticalPadding:
-                                                                0.0,
-                                                            text: AppLocalizations
-                                                                    .of(context)!
-                                                                .edit_minute,
-                                                            icon: Icons
-                                                                .check_box_outlined,
-                                                            textColor:
-                                                                Colors.white,
-                                                            buttonBackgroundColor:
-                                                                Colour()
-                                                                    .buttonBackGroundRedColor,
-                                                            horizontalPadding:
-                                                                10.0,
-                                                            callFunction: () =>
-                                                                {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            EditMinutes(
-                                                                              minute: minute,
-                                                                            )),
-                                                              ),
-                                                            },
-                                                          ),
-                                                        ),
-                                                        PopupMenuItem<int>(
-                                                            value: 4,
-                                                            child:
-                                                                CustomElevatedButton(
-                                                              verticalPadding:
-                                                                  0.0,
-                                                              text: AppLocalizations
-                                                                      .of(context)!
-                                                                  .delete,
-                                                              icon: Icons
-                                                                  .restore_from_trash_outlined,
-                                                              textColor:
-                                                                  Colors.white,
-                                                              buttonBackgroundColor:
-                                                                  Colour()
-                                                                      .buttonBackGroundRedColor,
-                                                              horizontalPadding:
-                                                                  10.0,
-                                                              callFunction: () =>
-                                                                  dialogDeleteMinute(
-                                                                      minute),
-                                                            )),
+                                                        // PopupMenuItem<int>(
+                                                        //   value: 3,
+                                                        //   child:
+                                                        //       CustomElevatedButton(
+                                                        //     verticalPadding:
+                                                        //         0.0,
+                                                        //     text: AppLocalizations
+                                                        //             .of(context)!
+                                                        //         .edit_minute,
+                                                        //     icon: Icons
+                                                        //         .check_box_outlined,
+                                                        //     textColor:
+                                                        //         Colors.white,
+                                                        //     buttonBackgroundColor:
+                                                        //         Colour()
+                                                        //             .buttonBackGroundRedColor,
+                                                        //     horizontalPadding:
+                                                        //         10.0,
+                                                        //     callFunction: () =>
+                                                        //         {
+                                                        //       Navigator.of(
+                                                        //               context)
+                                                        //           .push(
+                                                        //         MaterialPageRoute(
+                                                        //             builder:
+                                                        //                 (context) =>
+                                                        //                     EditMinutes(
+                                                        //                       minute: minute,
+                                                        //                     )),
+                                                        //       ),
+                                                        //     },
+                                                        //   ),
+                                                        // ),
+                                                        // PopupMenuItem<int>(
+                                                        //     value: 4,
+                                                        //     child:
+                                                        //         CustomElevatedButton(
+                                                        //       verticalPadding:
+                                                        //           0.0,
+                                                        //       text: AppLocalizations
+                                                        //               .of(context)!
+                                                        //           .delete,
+                                                        //       icon: Icons
+                                                        //           .restore_from_trash_outlined,
+                                                        //       textColor:
+                                                        //           Colors.white,
+                                                        //       buttonBackgroundColor:
+                                                        //           Colour()
+                                                        //               .buttonBackGroundRedColor,
+                                                        //       horizontalPadding:
+                                                        //           10.0,
+                                                        //       callFunction: () =>
+                                                        //           dialogDeleteMinute(
+                                                        //               minute),
+                                                        //     )),
                                                       ]),
                                             ),
                                           ]))
@@ -493,55 +493,55 @@ class _MinutesMeetingListState extends State<MinutesMeetingList> {
                 color: Colors.grey,
               ),
             ),
-            const SizedBox(
-              width: 5.0,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colour().buttonBackGroundMainColor,
-              ),
-              child: Center(
-                child: IconButton(
-                    onPressed: () {
-                      openMinutesCreateDialog();
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 30.0,
-                    )),
-              ),
-            ),
-            Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colour().buttonBackGroundMainColor,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      CustomText(
-                        text: AppLocalizations.of(context)!.remind_to_signing,
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      SizedBox(
-                        width: 5.0,
-                      ),
-                      Icon(
-                        Icons.notifications_active_outlined,
-                        color: Colors.white,
-                        size: 30.0,
-                      )
-                    ],
-                  )),
-            )
+            // const SizedBox(
+            //   width: 5.0,
+            // ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.all(Radius.circular(20)),
+            //     color: Colour().buttonBackGroundMainColor,
+            //   ),
+            //   child: Center(
+            //     child: IconButton(
+            //         onPressed: () {
+            //           openMinutesCreateDialog();
+            //         },
+            //         icon: const Icon(
+            //           Icons.add,
+            //           color: Colors.white,
+            //           size: 30.0,
+            //         )),
+            //   ),
+            // ),
+            // Spacer(),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.all(Radius.circular(20)),
+            //     color: Colour().buttonBackGroundMainColor,
+            //   ),
+            //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            //   child: TextButton(
+            //       onPressed: () {},
+            //       child: Row(
+            //         children: [
+            //           CustomText(
+            //             text: AppLocalizations.of(context)!.remind_to_signing,
+            //             color: Colors.white,
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //           SizedBox(
+            //             width: 5.0,
+            //           ),
+            //           Icon(
+            //             Icons.notifications_active_outlined,
+            //             color: Colors.white,
+            //             size: 30.0,
+            //           )
+            //         ],
+            //       )),
+            // )
           ],
         ),
       );

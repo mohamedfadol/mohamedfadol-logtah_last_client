@@ -221,7 +221,7 @@ class _BoardMeetingsListViewState extends State<BoardMeetingsListView> {
                         builder: (BuildContext context) {
                           return Row(
                             children: [
-                              _buildAddMeetingButtonCard(context: context, theme: theme, provider: provider),
+                              // _buildAddMeetingButtonCard(context: context, theme: theme, provider: provider),
                               // SizedBox(height: 15),
                               Expanded(
                                 child: SizedBox(
@@ -232,7 +232,6 @@ class _BoardMeetingsListViewState extends State<BoardMeetingsListView> {
                                     separatorBuilder: (_, index) => SizedBox(width: 10),
                                     itemBuilder: (context, index) {
                                       final meeting = provider.dataOfMeetings!.meetings![index];
-
                                       return Container(
                                         key: ValueKey(provider.showActionsMap[index]),
                                         padding: EdgeInsets.all(10),
@@ -245,18 +244,18 @@ class _BoardMeetingsListViewState extends State<BoardMeetingsListView> {
                                           startDate: meeting.meetingStartDate ?? '',
                                           endDate: meeting.meetingEndDate ?? '',
                                           moreInfo: meeting.meetingBy ?? '',
-                                          link: meeting.isVisible! ?  '${meeting.meetingMediaName}' : 'Attended Meeting',
+                                          link: meeting.isVisible == 0 ?  '${meeting.meetingMediaName}' : 'Attended Meeting',
                                           theme: theme,
                                           showActions: provider.showActionsMap[index] ?? false,
                                           toggleActions: () => provider.toggleActions(index),
-                                          onEdit: () {
-                                            meeting.meetingId.toString();
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) => EditBoardMeetingForm(event: meeting),
-                                              ),
-                                            );
-                                          },
+                                          // onEdit: () {
+                                          //   meeting.meetingId.toString();
+                                          //   Navigator.of(context).push(
+                                          //     MaterialPageRoute(
+                                          //       builder: (context) => EditBoardMeetingForm(event: meeting),
+                                          //     ),
+                                          //   );
+                                          // },
                                           onShowMeetingDetails: () {
                                             if (meeting.meetingPublishedStatus == 'PUBLISHED') {
                                               meeting.meetingId.toString();
@@ -267,30 +266,30 @@ class _BoardMeetingsListViewState extends State<BoardMeetingsListView> {
                                               );
                                             }
                                           },
-                                          onDelete: () {
-                                            dialogDeleteMeeting(meeting);
-                                          },
-                                          onArchive: () {
-                                            if (meeting.meetingPublishedStatus != 'ARCHIVED') {
-                                              dialogArchivedMeeting(meeting);
-                                            }
-                                          },
-                                          onNotify: () {
-                                            dialogNotifyMeeting(meeting);
-                                          },
+                                          // onDelete: () {
+                                          //   dialogDeleteMeeting(meeting);
+                                          // },
+                                          // onArchive: () {
+                                          //   if (meeting.meetingPublishedStatus != 'ARCHIVED') {
+                                          //     dialogArchivedMeeting(meeting);
+                                          //   }
+                                          // },
+                                          // onNotify: () {
+                                          //   dialogNotifyMeeting(meeting);
+                                          // },
                                           onPublish: () {
                                             if (meeting.meetingPublishedStatus != 'PUBLISHED') {
                                               dialogPublishedMeeting(meeting);
                                             }
                                           },
-                                          onUnPublish: () {
-                                            if (meeting.meetingPublishedStatus != 'UNPUBLISHED') {
-                                              dialogUnPublishedMeeting(meeting);
-                                            }
-                                          },
-                                          onClone: () {
-                                            // Handle clone
-                                          },
+                                          // onUnPublish: () {
+                                          //   if (meeting.meetingPublishedStatus != 'UNPUBLISHED') {
+                                          //     dialogUnPublishedMeeting(meeting);
+                                          //   }
+                                          // },
+                                          // onClone: () {
+                                          //   // Handle clone
+                                          // },
                                         ),
                                       );
                                     },
@@ -561,21 +560,21 @@ Widget _buildMeetingCard({
   required bool showActions,
   required int index,
   required VoidCallback toggleActions,
-  required VoidCallback onEdit,
+  // required VoidCallback onEdit,
   required VoidCallback onShowMeetingDetails,
-  required VoidCallback onDelete,
+  // required VoidCallback onDelete,
   required String status,
-  required VoidCallback onArchive,
-  required VoidCallback onNotify,
+  // required VoidCallback onArchive,
+  // required VoidCallback onNotify,
   required VoidCallback onPublish,
-  required VoidCallback onUnPublish,
-  required VoidCallback onClone,
+  // required VoidCallback onUnPublish,
+  // required VoidCallback onClone,
 }) {
   final provider = Provider.of<MeetingPageProvider>(context, listen: true);
   bool currentShowActions = provider.visibleActionIndex == index; // Determine visibility
-  bool isArchived = status == 'ARCHIVED';
+  // bool isArchived = status == 'ARCHIVED';
   bool isPublished = status == 'PUBLISHED';
-  bool isUnpublished = status == 'UNPUBLISHED';
+  // bool isUnpublished = status == 'UNPUBLISHED';
 
   return InkWell(
     onTap: toggleActions,
@@ -664,24 +663,24 @@ Widget _buildMeetingCard({
               ),
               child: ActionMenuColumn(
                 actions: {
-                  AppLocalizations.of(context)!.edit: Icons.edit,
+                  // AppLocalizations.of(context)!.edit: Icons.edit,
                   if (isPublished) AppLocalizations.of(context)!.view: Icons.arrow_forward_sharp,
-                  AppLocalizations.of(context)!.delete: Icons.delete,
-                  if (!isArchived) AppLocalizations.of(context)!.archived : Icons.archive,
-                  AppLocalizations.of(context)!.notifications: Icons.notifications,
-                  AppLocalizations.of(context)!.copy: Icons.copy,
-                  if (!isPublished) AppLocalizations.of(context)!.published : Icons.public,
-                  if (!isUnpublished) AppLocalizations.of(context)!.unPublished : Icons.public_off_outlined,
+                  // AppLocalizations.of(context)!.delete: Icons.delete,
+                  // if (!isArchived) AppLocalizations.of(context)!.archived : Icons.archive,
+                  // AppLocalizations.of(context)!.notifications: Icons.notifications,
+                  // AppLocalizations.of(context)!.copy: Icons.copy,
+                  // if (!isPublished) AppLocalizations.of(context)!.published : Icons.public,
+                  // if (!isUnpublished) AppLocalizations.of(context)!.unPublished : Icons.public_off_outlined,
                 },
                 callbacks: {
-                  AppLocalizations.of(context)!.edit: onEdit,
+                  // AppLocalizations.of(context)!.edit: onEdit,
                   if (isPublished) AppLocalizations.of(context)!.view: onShowMeetingDetails,
-                  AppLocalizations.of(context)!.delete: onDelete,
-                  if (!isArchived) AppLocalizations.of(context)!.archived : onArchive,
-                  AppLocalizations.of(context)!.notifications: onNotify,
-                  AppLocalizations.of(context)!.copy: onClone,
-                  if (!isPublished) AppLocalizations.of(context)!.published: onPublish,
-                  if (!isUnpublished) AppLocalizations.of(context)!.unPublished : onUnPublish,
+                  // AppLocalizations.of(context)!.delete: onDelete,
+                  // if (!isArchived) AppLocalizations.of(context)!.archived : onArchive,
+                  // AppLocalizations.of(context)!.notifications: onNotify,
+                  // AppLocalizations.of(context)!.copy: onClone,
+                  // if (!isPublished) AppLocalizations.of(context)!.published: onPublish,
+                  // if (!isUnpublished) AppLocalizations.of(context)!.unPublished : onUnPublish,
                 },
               ),
             ),

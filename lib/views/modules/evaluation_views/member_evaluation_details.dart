@@ -4,6 +4,8 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../NetworkHandler.dart';
+import '../../../colors.dart';
+import '../../../models/data/years_data.dart';
 import '../../../models/member.dart';
 import '../../../models/member_criteria.dart';
 import '../../../models/user.dart';
@@ -11,6 +13,7 @@ import '../../../providers/evaluation_page_provider.dart';
 import '../../../widgets/custom_icon.dart';
 import '../../../widgets/custom_message.dart';
 import '../../../widgets/custome_text.dart';
+import '../../../widgets/dropdown_string_list.dart';
 import '../../../widgets/loading_sniper.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
@@ -255,82 +258,51 @@ class _MemberEvaluationDetailsState extends State<MemberEvaluationDetails> {
 
   Widget buildFullTopFilter() => Padding(
         padding:
-            const EdgeInsets.only(top: 3.0, left: 0.0, right: 8.0, bottom: 8.0),
-        child: Row(
-          children: [
-            Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                color: Colors.red,
-                child: CustomText(
-                    text: 'Evaluations',
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(
-              width: 5.0,
-            ),
-            Container(
-              width: 140,
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-              color: Colors.red,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton(
-                  isExpanded: true,
-                  isDense: true,
-                  menuMaxHeight: 300,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  hint: const Text("Select an Year",
-                      style: TextStyle(color: Colors.white)),
-                  dropdownColor: Colors.white60,
-                  focusColor: Colors.redAccent[300],
-                  // Initial Value
-                  value: yearSelected,
-                  icon: const Icon(Icons.keyboard_arrow_down,
-                      size: 20, color: Colors.white),
-                  // Array list of items
-                  items: [
-                    const DropdownMenuItem(
-                      value: "",
-                      child: Text("Select an Year",
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                    ...yeasList.map((item) {
-                      return DropdownMenuItem(
-                        value: item.toString(),
-                        child: Text(item,
-                            style: const TextStyle(color: Colors.white)),
-                      );
-                    }).toList(),
-                  ],
-                  // After selecting the desired option,it will
-                  // change button value to selected value
-                  onChanged: (String? newValue) async {
-                    yearSelected = newValue!.toString();
-                    setState(() {
-                      yearSelected = newValue;
-                    });
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    user = User.fromJson(json.decode(prefs.getString("user")!));
-                    print(user.businessId);
-                    Map<String, dynamic> data = {
-                      "dateYearRequest": yearSelected,
-                      "business_id": user.businessId
-                    };
-                    EvaluationPageProvider providerGetResolutionsByDateYear =
-                        Provider.of<EvaluationPageProvider>(context,
-                            listen: false);
-                    Future.delayed(Duration.zero, () {
-                      providerGetResolutionsByDateYear
-                          .getListOfEvaluationsMember(data);
-                    });
-                  },
+            const EdgeInsets.only(top: 3.0, left: 10.0, right: 8.0, bottom: 8.0),
+        child: Consumer<EvaluationPageProvider>(
+            builder: (BuildContext context, provider, child) {
+            return Row(
+              children: [
+
+                Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 15.0),
+                    color: Colour().buttonBackGroundMainColor,
+                    child: CustomText(
+                        text: 'Evaluations Details',
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(
+                  width: 5.0,
                 ),
-              ),
-            ),
-          ],
+
+
+                Container(
+                  width: 200,
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 7.0, horizontal: 15.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colour().buttonBackGroundRedColor,
+                  ),
+                  child: DropdownStringList(
+                    boxDecoration: Colors.white,
+                    hint: CustomText(
+                        text: AppLocalizations.of(context)!.select_year,
+                        color: Colour().mainWhiteTextColor),
+                    selectedValue: provider.yearSelected,
+                    dropdownItems: yearsData,
+                    onChanged: (String? newValue) async {
+                      provider.setYearSelected(newValue!.toString());
+                      // await provider.getListOfMinutes(provider.yearSelected);
+                    },
+                    color: Colors.grey,
+                  ),
+                )
+              ],
+            );
+          }
         ),
       );
 
@@ -341,9 +313,7 @@ class _MemberEvaluationDetailsState extends State<MemberEvaluationDetails> {
               padding: const EdgeInsets.all(10.0),
               color: Colors.grey,
               child: CustomText(
-                text: "${widget!.member!.memberFirstName!}  "
-                    "${widget!.member?.memberMiddleName}  "
-                    "${widget!.member?.memberLastName}",
+                text: "${widget!.member!.fullName!}" ,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

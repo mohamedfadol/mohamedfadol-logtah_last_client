@@ -167,9 +167,9 @@ class _CommitteeEventEditingPageState extends State<CommitteeEventEditingPage> {
       titleController.text = event.meetingTitle!;
       fromDate =event.meetingStart!;
       toDate = event.meetingEnd!;
-      descriptionController.text = event.meetingDescription!;
-      videoConferenceLinkController.text = event.meetingMediaName!;
-      conferenceLinkController.text = event.meetingBy!;
+      descriptionController.text = event.meetingDescription ?? '';
+      videoConferenceLinkController.text = event.meetingMediaName ?? '';
+      conferenceLinkController.text = event.meetingBy ?? '';
     }
   }
 

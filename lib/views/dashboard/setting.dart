@@ -28,7 +28,7 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     // Initialize TabController with 7 tabs
-    defaultTabBarViewController = TabController(length: 7, vsync: this);
+    defaultTabBarViewController = TabController(length: 6, vsync: this);
 
     // Set the initial tab index if provided
     if (widget.initialTabIndex != null) {
@@ -82,7 +82,7 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
             print(index);
           },
           tabs: [
-            Tab(child: Text("Permissions")),
+            // Tab(child: Text("Permissions")),
             Tab(child: Text("Committees")),
             Tab(child: Text("Settings")),
             Tab(child: Text("Subscriptions")),
@@ -95,7 +95,7 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: defaultTabBarViewController,
         children: [
-          RolesListView(),
+          // RolesListView(),
           MemberAndCommittees(),
           Center(
               child: Container(

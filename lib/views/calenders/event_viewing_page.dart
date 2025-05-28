@@ -22,7 +22,7 @@ class EventViewingPage extends StatelessWidget {
 
         CustomText(text:event.meetingTitle! ,fontSize: 24,fontWeight: FontWeight.bold,),
         SizedBox(height: 20,),
-        CustomText(text:event.meetingDescription!,fontSize: 24,fontWeight: FontWeight.bold,),
+        CustomText(text:event.meetingDescription ?? '',fontSize: 24,fontWeight: FontWeight.bold,),
         SizedBox(height: 20,),
         buildDateTime(event),
 
@@ -33,8 +33,8 @@ class EventViewingPage extends StatelessWidget {
   Widget buildDateTime(Meeting event){
     return Column(
       children: [
-          buildDate(event.isActive! ? 'All-day active' : 'From', event.meetingStart!),
-        if(!event.isActive!) buildDate('To', event.meetingEnd!)
+          buildDate(event.isActive ? 'All-day active' : 'From', event.meetingStart!),
+        if(!event.isActive) buildDate('To', event.meetingEnd!)
       ],
     );
   }

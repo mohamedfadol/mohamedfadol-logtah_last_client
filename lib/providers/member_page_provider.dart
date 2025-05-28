@@ -110,6 +110,16 @@ class MemberPageProvider extends ChangeNotifier {
   RoleModel get role => _role;
 
 
+  // Fetch guards
+  bool _hasFetchedMembers = false;
+  bool _hasFetchedGroups = false;
+  bool _hasFetchedRoles = false;
+
+  bool get hasFetchedInitialData =>
+  _hasFetchedMembers && _hasFetchedGroups && _hasFetchedRoles;
+
+
+
   Permissions? dataOfPermissions;
   PermissionModel _permission = PermissionModel();
   PermissionModel get permission => _permission;
@@ -146,7 +156,11 @@ class MemberPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _hasFetchedCombined = false;
+
+  bool get hasFetchedCombined => _hasFetchedCombined;
   Future getListOfMembersDependingOnCombinedCollectionBoardAndCommittee() async{
+    if (_hasFetchedCombined) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
     var businessId = user.businessId;
@@ -159,6 +173,7 @@ class MemberPageProvider extends ChangeNotifier {
       var meetingsData = responseData['data'];
       collectionBoardCommitteeData = CombinedCollectionBoardCommitteeData.fromJson(meetingsData);
       print(collectionBoardCommitteeData!.combinedCollectionBoardCommitteeData!.length);
+      _hasFetchedCombined = true;
       notifyListeners();
 
     } else {
@@ -186,6 +201,8 @@ class MemberPageProvider extends ChangeNotifier {
   }
 
   Future getDataOfGroups() async{
+    if (_hasFetchedGroups) return;
+    _hasFetchedGroups = true;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
     var businessId = user.businessId;
@@ -209,6 +226,8 @@ class MemberPageProvider extends ChangeNotifier {
   }
 
   Future getListOfMember(context) async {
+    if (_hasFetchedMembers) return;
+    _hasFetchedMembers = true;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     user = User.fromJson(json.decode(prefs.getString("user")!));
     Map<String, dynamic> requestData = {"business_id": user.businessId,"combined": combined};
@@ -274,64 +293,35 @@ class MemberPageProvider extends ChangeNotifier {
   }
 
 
-  Future<void> insertMember(Map<String, dynamic> data) async {
-    setLoading(true);
-    notifyListeners();
+  Future getListOfMembers() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    user = User.fromJson(json.decode(prefs.getString("user")!));
-    var response = await networkHandler.post1('/insert-new-member', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("insert new member response statusCode == 200");
-      var responseData = json.decode(response.body);
-      var membersData = responseData['data'];
-      _member = Member.fromJson(membersData['member']);
-      dataOfMembers!.members!.add(_member);
-      setIsBack(true);
-      setLoading(false);
-      notifyListeners();
+    var userJson = prefs.getString("user");
+
+    if (userJson != null) {
+      User user = User.fromJson(json.decode(userJson));
+      var response = await networkHandler.get('/get-list-members/${user.businessId.toString()}');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log.d("get-list-members menu response statusCode == 200");
+        var responseData = json.decode(response.body);
+        var membersData = responseData['data'];
+        dataOfMembers = MyData.fromJson(membersData);
+        notifyListeners();
+      } else {
+        log.d("get-list-members menu response statusCode unknown");
+        log.d(response.statusCode);
+        throw Exception("Failed to load members");
+      }
     } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      log.d("insert new member response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
+      log.d("get-list-members menu response userJson unknown");
+      throw Exception("User data not found");
     }
-  }
-
-  Future<void> updateMember(Member oldMember, Map<String, dynamic> updatedData) async {
-    setLoading(true);
-    notifyListeners();
-    final index = dataOfMembers!.members!.indexOf(oldMember);
-    Member member = dataOfMembers!.members![index];
-    String memberId =  member.memberId.toString();
-
-    final response = await networkHandler.post1('/update-member/${memberId}', updatedData);
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("Member updated successfully");
-      var responseData = json.decode(response.body);
-      var membersData = responseData['data'];
-      final index = dataOfMembers!.members!.indexOf(oldMember);
-      dataOfMembers!.members![index] = Member.fromJson(membersData['member']);
-      setMember(_member);
-
-      setLoading(false);
-      notifyListeners();
-    } else {
-      log.d("insert new member response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
-    }
-
-    setLoading(false);
   }
 
 
   Future<void> fetchDropdownData() async {
-    setLoading(true);
-    final prefs = await SharedPreferences.getInstance();
-    user = User.fromJson(json.decode(prefs.getString("user")!));
+    // setLoading(true);
+    // final prefs = await SharedPreferences.getInstance();
+    // user = User.fromJson(json.decode(prefs.getString("user")!));
 
     // // Fetch positions
     // final positionsResponse =
@@ -360,33 +350,25 @@ class MemberPageProvider extends ChangeNotifier {
     //   committees = data['committees'];
     // }
 
-    setLoading(false);
-    notifyListeners();
+    // setLoading(false);
+    // notifyListeners();
   }
 
 
-  Future<void> deleteMember(Member oldMember, Map<String, dynamic> updatedData) async {
-    setLoading(true);
-    notifyListeners();
-    final index = dataOfMembers!.members!.indexOf(oldMember);
-    Member member = dataOfMembers!.members![index];
-    String memberId =  member.memberId.toString();
 
-    final response = await networkHandler.post1('/remove-member', updatedData);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("Member remove successfully");
-      dataOfMembers!.members!.remove(member);
-      await Future.delayed(const Duration(seconds: 5));
 
-      setLoading(false);
-      notifyListeners();
-    } else {
-      log.d("remove new member response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
+  Future<void> fetchMyProfileWithRoles() async {
+    // setLoading(true);
+    final response = await networkHandler.get('/get-list-of-member-roles'); // your backend endpoint
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      var membersData = responseData['data'];
+      _member = Member.fromJson(membersData['member']);
+      print('-------------------------------------');
+      print(membersData);
+      setMember(_member);
     }
-
     setLoading(false);
   }
 
@@ -414,8 +396,11 @@ class MemberPageProvider extends ChangeNotifier {
     }
   }
 
+
   Future getListOfRoles(context) async {
-    var response = await networkHandler.get('/get-list-of-roles');
+    if (_hasFetchedRoles) return;
+    _hasFetchedRoles = true;
+    var response = await networkHandler.get('/get-list-of-member-roles');
     if (response.statusCode == 200 || response.statusCode == 201) {
       log.d("get-list-of-roles response statusCode == 200");
       var responseData = json.decode(response.body);
@@ -514,6 +499,7 @@ class MemberPageProvider extends ChangeNotifier {
       // Handle errors here if needed
     }
   }
+
   // Check if a specific member-role combination is loading
   bool isLoadingForMemberRole(String memberId, String roleId) {
     return _loadingStates.contains('$memberId-$roleId');

@@ -72,6 +72,8 @@ class MenusProvider with ChangeNotifier {
 
   void changeMenuPressed(){
     _menuPressed = !_menuPressed;
+    _isVisibleMeetingInDashboard = false;
+    _isVisibleQuickAccessInDashboard = false;
     notifyListeners();
   }
 
@@ -92,4 +94,31 @@ class MenusProvider with ChangeNotifier {
     _showHomeIcon = value;
     notifyListeners();
   }
+
+
+  bool _isVisibleMeetingInDashboard = false;
+  bool get isVisibleMeetingInDashboard => _isVisibleMeetingInDashboard;
+
+  void toggleMeetingsListInDashboardVisibility() {
+    _isVisibleMeetingInDashboard = !_isVisibleMeetingInDashboard;
+    notifyListeners();
+  }
+
+  int _selectedPageIndex = 0;
+  int get selectedPageIndex => _selectedPageIndex;
+
+  void toggleSelectedPageIndexInDashboardVisibility(int index) {
+    _selectedPageIndex = index;
+    _isVisibleQuickAccessInDashboard = true;
+    notifyListeners();
+  }
+
+  bool _isVisibleQuickAccessInDashboard = false;
+  bool get isVisibleQuickAccessInDashboard => _isVisibleQuickAccessInDashboard;
+
+  void toggleQuickAccessInDashboardVisibility() {
+    _isVisibleQuickAccessInDashboard = !_isVisibleQuickAccessInDashboard;
+    notifyListeners();
+  }
+
 }

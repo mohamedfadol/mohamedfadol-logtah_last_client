@@ -236,13 +236,14 @@ class MeetingPageProvider extends ChangeNotifier{
 
 
   bool _isVisible = true;
-
   bool get isVisible => _isVisible;
 
   void toggleVisibility() {
     _isVisible = !_isVisible;
     notifyListeners();
   }
+
+
 
   void setWaitingForOpeningFileOne(bool value){
     _waitingForOpeningFileOne = value;
@@ -1379,10 +1380,12 @@ class MeetingPageProvider extends ChangeNotifier{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
     var response = await networkHandler.get('/get-list-meetings/${user.businessId.toString()}');
+    print('/get-list-meetings/${user.businessId.toString()}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       log.d("get-list-meetings response statusCode == 200");
       var responseData = json.decode(response.body);
       var meetingsData = responseData['data'];
+      print("meetingsData $meetingsData");
       dataOfMeetings = Meetings.fromJson(meetingsData);
       print(dataOfMeetings!.meetings!.length);
       notifyListeners();

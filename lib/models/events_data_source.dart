@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:diligov_members/models/meeting_model.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -16,14 +18,21 @@ class EventsDataSource extends CalendarDataSource{
   DateTime getEndTime(int index) => getMeeting(index).meetingEnd!;
 
   @override
-  String getSubject(int index) => getMeeting(index).meetingTitle!;
+  String getSubject(int index) {
+    final fullTitle = getMeeting(index).meetingTitle ?? '';
+    return fullTitle.length > 20 ? '${fullTitle.substring(0, 20)}…' : fullTitle;
+  }
+
 
   // @override
-  // Color getColor(int index) => getMeeting(index).backGroundColor!;
+  Color getColor(int index) => getMeeting(index).backGroundColor!;
 
   @override
-  int isAllDays(int index) => getMeeting(index).isAllDays!;
+  bool isAllDays(int index) => getMeeting(index).isAllDays;
 
   @override
-  bool isActive(int index) => getMeeting(index).isActive!;
+  bool isActive(int index) => getMeeting(index).isActive;
+
+  @override
+  String? getMeetingDescription(int index) => getMeeting(index).meetingDescription;
 }

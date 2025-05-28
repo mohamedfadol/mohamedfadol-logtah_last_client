@@ -54,16 +54,7 @@ class _TaskWidgetState extends State<TaskWidget> {
       ),
       width: details.bounds.width,
       height: details.bounds.height,
-      child: Center(
-        child: CustomText(text: event.meetingTitle.toString(),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-
-
-            fontSize: 16,
-            fontWeight: FontWeight.bold
-
-        ),
+      child: Center(child: CustomText(text: event.meetingTitle.toString(),maxLines: 1,overflow: TextOverflow.ellipsis,fontSize: 16,fontWeight: FontWeight.bold),
       ),
     );
   }

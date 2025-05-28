@@ -14,6 +14,9 @@ class EvaluationPageProvider extends ChangeNotifier{
   User user = User();
   NetworkHandler networkHandler = NetworkHandler();
 
+  String _yearSelected = '2024';
+  String get yearSelected => _yearSelected;
+
   late List<TextEditingController> categoryControllers = [];
   late List<List<TextEditingController>> questionControllers = [];
   List<List<Widget>> categoryItems = [];
@@ -37,6 +40,10 @@ class EvaluationPageProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void setYearSelected(year) async {
+    _yearSelected =  year;
+    notifyListeners();
+  }
 
   bool _loading = false;
   bool get loading => _loading;
