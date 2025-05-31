@@ -49,69 +49,75 @@ class _EvaluationListViewsState extends State<EvaluationListViews> {
     return Scaffold(
       appBar: Header(context),
       body: Column(
-        mainAxisSize:MainAxisSize.min,
         children: [
-              buildFullTopFilter(),
-              Consumer<MemberPageProvider>(
-              builder: (context, provider, _){
+          buildFullTopFilter(),
+          Expanded(
+            child: Consumer<MemberPageProvider>(
+              builder: (context, provider, _) {
                 if (provider.dataOfMembers?.members == null) {
                   provider.getListOfMembers();
                   return buildLoadingSniper();
                 }
                 return provider.dataOfMembers!.members!.isEmpty
-                    ? buildEmptyMessage(
-                    AppLocalizations.of(context)!.no_data_to_show)
+                    ? buildEmptyMessage(AppLocalizations.of(context)!.no_data_to_show)
                     : GridView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 5.0,
-                      crossAxisSpacing: 5.0,
-                      crossAxisCount: 5,
-                    ),
-                    itemCount: provider.dataOfMembers!.members!.length, // <-- required
-                    itemBuilder: (BuildContext ctx, i)  {
-                      final Member  member = provider.dataOfMembers!.members![i];
-                      return GestureDetector(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) =>  MemberEvaluationDetails(member: member,))
+                  padding: const EdgeInsets.all(8),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 5.0,
+                    crossAxisSpacing: 5.0,
+                    crossAxisCount: 5,
+                  ),
+                  itemCount: provider.dataOfMembers!.members!.length,
+                  itemBuilder: (BuildContext ctx, i) {
+                    final Member member = provider.dataOfMembers!.members![i];
+                    return GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MemberEvaluationDetails(member: member),
                         ),
-                        child: Container(
-                          color: Colors.grey[300],
-                          height: 50,
-                          width: 50,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                  radius: 100,
-                                  child: Container(
-                                      width: 190.0,
-                                      height: 190.0,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: member.memberProfileImage == null ?
-                                              AssetImage("assets/images/profile.jpg",) as ImageProvider :
-                                              NetworkImage('https://diligov.com/public/profile_images/${member.businessId}/${member.memberProfileImage}')
-                                          )
-                                      )
-                                  )
+                      ),
+                      child: Container(
+                        color: Colors.grey[300],
+                        height: 50,
+                        width: 50,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.red,
+                              radius: 100,
+                              child: Container(
+                                width: 190.0,
+                                height: 190.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: member.memberProfileImage == null
+                                        ? const AssetImage("assets/images/profile.jpg")
+                                        : NetworkImage('https://diligov.com/public/profile_images/${member.businessId}/${member.memberProfileImage}') as ImageProvider,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(height: 10.0,),
-                              CustomText(text:'${member.memberFirstName}',fontSize: 20.0,fontWeight: FontWeight.bold,)
-                            ],
-                          ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            CustomText(
+                              text: '${member.memberFirstName}',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
                         ),
-                      );
-                    }
+                      ),
+                    );
+                  },
                 );
-              }
+              },
+            ),
           ),
         ],
       ),
+
     );
 
   }

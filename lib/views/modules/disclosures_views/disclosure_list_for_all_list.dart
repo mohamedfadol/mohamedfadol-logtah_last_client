@@ -1,19 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:diligov_members/models/disclosure_model.dart';
 import 'package:diligov_members/providers/disclosure_page_provider.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../NetworkHandler.dart';
 import '../../../colors.dart';
 import '../../../models/data/years_data.dart';
-import '../../../models/user.dart';
 import '../../../utility/pdf_api.dart';
 import '../../../utility/pdf_disclosure_api.dart';
 import '../../../widgets/appBar.dart';
@@ -22,22 +12,22 @@ import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_icon.dart';
 import '../../../widgets/custom_message.dart';
 import '../../../widgets/custome_text.dart';
-import '../../../widgets/date_format_text_form_field.dart';
 import '../../../widgets/dropdown_string_list.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 import '../../../widgets/loading_sniper.dart';
-import '../../../widgets/stand_text_form_field.dart';
+import 'disclosures_list_view.dart';
 
-class DisclosureListViews extends StatefulWidget {
-  const DisclosureListViews({super.key});
-  static const routeName = '/DisclosureListViews';
+
+class DisclosureListForAllList extends StatefulWidget {
+  const DisclosureListForAllList({super.key});
+  static const routeName = '/DisclosureListForAllList';
 
   @override
-  State<DisclosureListViews> createState() => _DisclosureListViewsState();
+  State<DisclosureListForAllList> createState() => _DisclosureListForAllListState();
 }
 
-class _DisclosureListViewsState extends State<DisclosureListViews> {
+class _DisclosureListForAllListState extends State<DisclosureListForAllList> {
 
   late DisclosurePageProvider providerDisclosure;
 
@@ -64,11 +54,6 @@ class _DisclosureListViewsState extends State<DisclosureListViews> {
   @override
   Widget build(BuildContext context) {
 
-    final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-    // Extract `committeeId` safely
-    String committeeId = args?['committeeId'] ?? "No ID Provided";
-
-
     return Scaffold(
       appBar: Header(context),
       body: Center(
@@ -77,12 +62,12 @@ class _DisclosureListViewsState extends State<DisclosureListViews> {
           child: ListView(
             scrollDirection: Axis.vertical,
             children: [
-              buildFullTopFilter(committeeId),
+              buildFullTopFilter( ),
               Center(
                 child: Consumer<DisclosurePageProvider>(
                     builder: (context, provider, child) {
                       if (provider.disclosuresData?.disclosures == null) {
-                        provider.getListOfDisclosures(provider.yearSelected, committeeId);
+                        provider.getListOfAllDisclosures(provider.yearSelected);
                         return buildLoadingSniper();
                       }
                       return provider.disclosuresData!.disclosures!.isEmpty
@@ -299,32 +284,21 @@ class _DisclosureListViewsState extends State<DisclosureListViews> {
     );
   }
 
-  Widget buildFullTopFilter(String committeeId) {
+  Widget buildFullTopFilter() {
     return Consumer<DisclosurePageProvider>(
-        builder: (BuildContext context, provider, child) {
+        builder: (BuildContext context, provider, _) {
           return Padding(
             padding:
             const EdgeInsets.only(top: 3.0, left: 15.0, right: 15.0, bottom: 8.0),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 15.0),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)),
+                  padding:const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Colour().buttonBackGroundRedColor,
                   ),
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(0.0),
-                      ),
-                      // minimumSize: Size(200, 200), // Make it square
-                      // padding: EdgeInsets.all(10),
-                    ),
-                    label: CustomText(text: "Disclosures"),
-                    icon: CustomIcon(icon: Icons.arrow_back_rounded),
-                    onPressed: () => Navigator.pushReplacementNamed(context,DisclosureListViews.routeName),
-                  ),
+                  child: CustomText(text: "All Disclosures", color: Colors.white,fontWeight: FontWeight.bold,),
                 ),
                 const SizedBox(
                   width: 5.0,
@@ -345,7 +319,7 @@ class _DisclosureListViewsState extends State<DisclosureListViews> {
                     dropdownItems: yearsData,
                     onChanged: (String? newValue) async {
                       provider.setYearSelected(newValue!.toString());
-                      await provider.getListOfDisclosures(provider.yearSelected, committeeId);
+                      await provider.getListOfAllDisclosures(provider.yearSelected);
                     },
                     color: Colors.grey,
                   ),
@@ -564,9 +538,9 @@ class _DisclosureListViewsState extends State<DisclosureListViews> {
     return const LoadingSniper();
   }
 
-  // void openPDF(BuildContext context, String file,fileName) => Navigator.of(context).push(
-  //   MaterialPageRoute(builder: (context) => PDFViewerPageAsyncfusion(file: file,fileName: fileName,)),
-  // );
+// void openPDF(BuildContext context, String file,fileName) => Navigator.of(context).push(
+//   MaterialPageRoute(builder: (context) => PDFViewerPageAsyncfusion(file: file,fileName: fileName,)),
+// );
 
 
 }

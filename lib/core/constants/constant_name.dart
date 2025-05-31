@@ -1,3 +1,5 @@
+import 'package:diligov_members/views/modules/disclosures_views/disclosure_list_for_all_list.dart';
+
 import '../../views/calenders/calendar_page.dart';
 import '../../views/committee_views/calenders/committee_calendar_page.dart';
 import '../../views/committee_views/committee_resolutions_views/committee_resolutions_list_views.dart';
@@ -8,7 +10,6 @@ import '../../views/committee_views/annual_audit_report/annual_audit_report_list
 import '../../views/modules/committees_annual_audit_report_views/committees_annual_audit_report_list_view.dart';
 import '../../views/modules/board_views/board_meetings/board_meetings_list_view.dart';
 import '../../views/modules/board_views/tab_bar_list_view.dart';
-import '../../views/modules/disclosures_views/competitions/forms/edit_competition_form.dart';
 import '../../views/modules/disclosures_views/disclosures_how_menus.dart';
 import '../../views/modules/disclosures_views/disclosures_list_view.dart';
 import '../../views/modules/evaluation_views/evaluation_list_views.dart';
@@ -34,13 +35,13 @@ class ConstantName{
   static const financialListViews = FinancialListViews.routeName;
   static const committeesAnnualAuditReportListView = CommitteesAnnualAuditReportListView.routeName;
   static const disclosureListViews = DisclosureListViews.routeName;
+  static const disclosureListForAllList = DisclosureListForAllList.routeName;
   static const disclosuresHowMenus = DisclosuresHowMenus.routeName;
   static const committeeResolutionsListViews = CommitteeResolutionsListViews.routeName;
   static const boardMeetingsListView = BoardMeetingsListView.routeName;
   static const nominationsList = NominationsList.routeName;
   static const performanceRewardListView = PerformanceRewardListView.routeName;
   static const suiteKpiListView = SuiteKpiListView.routeName;
-  static const eitCompetitionForm = EditCompetitionForm.routeName;
   static const remunerationPolicyListViews = RemunerationPolicyListViews.routeName;
 
 

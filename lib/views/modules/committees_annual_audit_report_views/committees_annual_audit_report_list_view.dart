@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../colors.dart';
-import '../../../models/annual_audit_report_model.dart';
 import '../../../models/data/years_data.dart';
 import '../../../providers/annual_audit_report_provider.dart';
 import '../../../utility/pdf_annual_report_api.dart';
@@ -18,10 +17,6 @@ import '../../../widgets/dropdown_string_list.dart';
 import '../../../widgets/loading_sniper.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-import '../../committee_views/annual_audit_report/annual_audit_generate_dual_pdf_pag.dart';
-import '../../committee_views/annual_audit_report/annual_audit_generate_for_arabic_pdf_pag.dart';
-import '../../committee_views/annual_audit_report/annual_audit_generate_for_english_pdf_pag.dart';
-import '../../committee_views/annual_audit_report/forms/build_annual_audit_report_form_card.dart';
 
 
 class CommitteesAnnualAuditReportListView extends StatefulWidget {
@@ -132,16 +127,6 @@ class _CommitteesAnnualAuditReportListViewState extends State<CommitteesAnnualAu
                                         color: Colour().lightBackgroundColor,
                                       ),
                                       tooltip: "owner that add by"),
-                                  DataColumn(
-                                      label: CustomText(
-                                        text:
-                                        AppLocalizations.of(context)!.actions,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                        color: Colour().lightBackgroundColor,
-                                      ),
-                                      tooltip:
-                                      "show buttons for functionality members"),
                                 ],
                                 rows: provider!.annual_audit_reports_data!.annual_audit_reports_data!
                                     .map((annual_report) =>
@@ -177,129 +162,6 @@ class _CommitteesAnnualAuditReportListViewState extends State<CommitteesAnnualAu
                                         ),
                                       ),
 
-                                      DataCell(
-                                        PopupMenuButton<int>(
-                                            padding:
-                                            EdgeInsets.only(bottom: 5.0),
-                                            icon: CustomIcon(
-                                              icon: Icons.settings,
-                                              size: 30.0,
-                                            ),
-                                            onSelected: (value) => 0,
-                                            itemBuilder: (context) =>
-                                            [
-                                              PopupMenuItem<int>(
-                                                  value: 0,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                      verticalPadding:
-                                                      0.0,
-                                                      text: AppLocalizations
-                                                          .of(
-                                                          context)!
-                                                          .view,
-                                                      icon: Icons
-                                                          .remove_red_eye_outlined,
-                                                      textColor:
-                                                      Colors
-                                                          .white,
-                                                      buttonBackgroundColor:
-                                                      Colors.red,
-                                                      horizontalPadding:
-                                                      10.0,
-                                                      callFunction:
-                                                          () async {
-                                                        print('View done');
-                                                        // final pdfFile = await PdfAnnualReportApi.generate(annual_report, context);
-                                                        // print(pdfFile);
-                                                        // PDFApi.openFile(pdfFile);
-                                                      })),
-                                              PopupMenuItem<int>(
-                                                value: 1,
-                                                child: ExpansionTile(
-                                                  title: CustomText(
-                                                    text: AppLocalizations.of(context)!.export,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16.0,
-                                                  ),
-                                                  leading: Icon(Icons.import_export_outlined, color: Colors.red),
-                                                  children: [
-                                                    ListTile(
-                                                      leading: Icon(Icons.language, color: Colors.green),
-                                                      title: CustomText(text: "Export to Arabic"),
-                                                      onTap: () async{
-                                                        Navigator.of(context).push(MaterialPageRoute(
-                                                            builder: (context) => AnnualAuditGenerateForArabicPdfPag(annual_report: annual_report)
-                                                        ),
-                                                        );
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      leading: Icon(Icons.language, color: Colors.blue),
-                                                      title: CustomText(text: "Export to English"),
-                                                      onTap: () async{
-                                                        Navigator.of(context).push(MaterialPageRoute(
-                                                            builder: (context) => AnnualAuditGenerateForEnglishPdfPag(annual_report: annual_report)
-                                                        ),
-                                                        );
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      leading: Icon(Icons.public, color: Colors.orange),
-                                                      title: CustomText(text: "Export to Dual (Arabic & English)"),
-                                                      onTap: () async {
-                                                        Navigator.of(context).push(MaterialPageRoute(
-                                                            builder: (context) => AnnualAuditGenerateForDualPdfPag(annual_report: annual_report)
-                                                        ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-
-                                              PopupMenuItem<int>(
-                                                  value: 2,
-                                                  child: CustomElevatedButton(
-                                                      verticalPadding:
-                                                      0.0,
-                                                      text:
-                                                      AppLocalizations.of(
-                                                          context)!
-                                                          .signed,
-                                                      icon: Icons
-                                                          .checklist_outlined,
-                                                      textColor:
-                                                      Colors.white,
-                                                      buttonBackgroundColor:
-                                                      Colors.red,
-                                                      horizontalPadding:
-                                                      10.0,
-                                                      callFunction: () {
-                                                        // dialogToMakeSignAnnualReport(annual_report);
-                                                      })),
-                                              PopupMenuItem<int>(
-                                                  value: 4,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                    verticalPadding: 0.0,
-                                                    text: AppLocalizations
-                                                        .of(context)!
-                                                        .delete,
-                                                    icon: Icons
-                                                        .restore_from_trash_outlined,
-                                                    textColor:
-                                                    Colors.white,
-                                                    buttonBackgroundColor:
-                                                    Colors.red,
-                                                    horizontalPadding:
-                                                    10.0,
-                                                    callFunction: () {
-                                                      // dialogDeleteAnnualReport(annual_report);
-                                                    },
-                                                  )),
-                                            ]),
-                                      ),
                                     ]))
                                     .toList(),
                               ),
@@ -318,7 +180,7 @@ class _CommitteesAnnualAuditReportListViewState extends State<CommitteesAnnualAu
 
   Widget buildFullTopFilter() {
     return Consumer<AnnualAuditReportProvider>(
-        builder: (BuildContext context, provider, child){
+        builder: (BuildContext context, provider, _){
           return Padding(
             padding:
             const EdgeInsets.only(top: 3.0, left: 0.0, right: 8.0, bottom: 8.0),
@@ -356,112 +218,12 @@ class _CommitteesAnnualAuditReportListViewState extends State<CommitteesAnnualAu
                     },
                     color: Colors.grey,
                   ),
-                ),
-                const SizedBox(
-                  width: 5.0,
-                ),
-                Container(
-                  padding:const EdgeInsets.symmetric(vertical: 2.0, horizontal: 15.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colour().buttonBackGroundRedColor,
-                  ),
-                  child: TextButton(
-                    onPressed: () async {
-                      Navigator.of(context).pushReplacementNamed(BuildAnnualAuditReportFormCard.routeName);
-                    }, child: CustomText(text: 'Add New',fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                  ),
                 )
               ],
             ),
           );
         }
     );
-  }
-
-  Future dialogDeleteAnnualReport(AnnualAuditReportModel annualReport) => showDialog(
-    // barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                insetPadding: const EdgeInsets.symmetric(horizontal: 100),
-                title: Center(
-                    child: CustomText(text:"${AppLocalizations.of(context)!.are_you_sure_to_delete} ${annualReport.annualAuditReportTitleEn!} ?",
-                        color: Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                content: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.yes_delete,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.check, color: Colors.white),
-                              onPressed: () {
-                                removeAnnualReport(annualReport);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            ),
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.no_cancel,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.clear, color: Colors.white),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              );
-            });
-      });
-
-  void removeAnnualReport(AnnualAuditReportModel annualReport)async {
-    final providerAnnualReports = Provider.of<AnnualAuditReportProvider>(context, listen: false);
-    await providerAnnualReports.removeAnnualAuditReport(annualReport);
-    if (providerAnnualReports.isBack == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(text: AppLocalizations.of(context)!.remove_minute_done),
-          backgroundColor: Colors.greenAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(
-              text: AppLocalizations.of(context)!.remove_minute_failed),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    }
   }
 
   Future dialogToMakeSignAnnualReport(AnnualReportsModel annualReport) => showDialog(

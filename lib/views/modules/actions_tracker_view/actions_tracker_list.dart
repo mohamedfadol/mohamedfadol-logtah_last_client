@@ -67,48 +67,6 @@ class _ActionsTrackerListState extends State<ActionsTrackerList> {
 
     return Scaffold(
       appBar: Header(context),
-      floatingActionButton: providerUpdateAction?.actionsData?.actions != null ? FloatingActionButton.extended(
-        onPressed: () async {
-          print('View actions done');
-          final List<ActionTracker>? dataList = providerUpdateAction?.actionsData?.actions;
-          final pdfFile = await PdfActionTrackesAPI.generate(dataList, context);
-          if (await PDFApi.requestPermission()) {
-            await PDFApi.openFile(pdfFile);
-          }else {
-            print('permission error--------------');
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: CustomText(text:'you don\'t have permission open file'),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
-          }
-
-        },
-        backgroundColor: Colour().buttonBackGroundRedColor,
-        label: CustomText(
-            text: AppLocalizations.of(context)!.add_to_next_meeting_agenda,
-            color: Colour().mainWhiteTextColor,
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
-        icon: CustomIcon(
-          icon: Icons.picture_as_pdf,
-          // color: Colors.white,
-        ),
-      ) : FloatingActionButton.extended(
-          backgroundColor: Colour().buttonBackGroundRedColor,
-          onPressed: () {},
-        label: CustomText(
-          text: AppLocalizations.of(context)!.add_to_next_meeting_agenda,
-          // color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold),
-        icon: CustomIcon(
-          icon: Icons.picture_as_pdf,
-          // color: Colors.white,
-        ),
-
-      ),
       body: Container(
         child: Center(
             child: Padding(

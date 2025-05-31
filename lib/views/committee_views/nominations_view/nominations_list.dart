@@ -120,26 +120,26 @@ class _NominationsListState extends State<NominationsList> with WidgetsBindingOb
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Container(
-                                  width: 400,
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 2.0, horizontal: 15.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                                    color: Colour().buttonBackGroundRedColor,
-                                  ),
-                                  child: TextButton(
-                                    onPressed: () async {
-                                         showUploadDialog(context, 'test');
-                                    },
-                                    child: CustomText(
-                                      text: 'Add Candidate',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                )
+                                // Container(
+                                //   width: 400,
+                                //   padding: const EdgeInsets.symmetric(
+                                //       vertical: 2.0, horizontal: 15.0),
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.all(Radius.circular(0)),
+                                //     color: Colour().buttonBackGroundRedColor,
+                                //   ),
+                                //   child: TextButton(
+                                //     onPressed: () async {
+                                //          showUploadDialog(context, 'test');
+                                //     },
+                                //     child: CustomText(
+                                //       text: 'Add Candidate',
+                                //       fontSize: 20,
+                                //       fontWeight: FontWeight.bold,
+                                //       color: Colors.white,
+                                //     ),
+                                //   ),
+                                // )
                               ],
                             ),
                           ),
@@ -233,10 +233,10 @@ class _NominationsListState extends State<NominationsList> with WidgetsBindingOb
               crossAxisAlignment: CrossAxisAlignment.center,
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                    onPressed: () async { await dialogDeleteNominate(nominate);},
-                    child: CustomIcon(icon: Icons.delete_forever_outlined, color: Colors.red,)
-                ),
+                // ElevatedButton(
+                //     onPressed: () async { await dialogDeleteNominate(nominate);},
+                //     child: CustomIcon(icon: Icons.delete_forever_outlined, color: Colors.red,)
+                // ),
                 SizedBox(width: 10,),
                 ElevatedButton(
                     onPressed: () async{

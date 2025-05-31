@@ -286,26 +286,7 @@ class _SuiteKpiListViewState extends State<SuiteKpiListView> {
                                                       callFunction:() {
                                                         // dialogToMakeSignFinancial(financial);
                                                       })),
-                                              PopupMenuItem<int>(
-                                                  value: 4,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                    verticalPadding: 0.0,
-                                                    text: AppLocalizations
-                                                        .of(context)!
-                                                        .delete,
-                                                    icon: Icons
-                                                        .restore_from_trash_outlined,
-                                                    textColor:
-                                                    Colors.white,
-                                                    buttonBackgroundColor:
-                                                    Colors.red,
-                                                    horizontalPadding:
-                                                    10.0,
-                                                    callFunction: () {
-                                                      dialogDeleteSuiteKpi(csuiteKpi);
-                                                    },
-                                                  )),
+
                                             ]),
                                       ),
                                     ]))
@@ -370,28 +351,6 @@ class _SuiteKpiListViewState extends State<SuiteKpiListView> {
                     color: Colors.grey,
                   ),
                 ),
-                const SizedBox(
-                  width: 5.0,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 15.0),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)),
-                    color: Colour().buttonBackGroundRedColor,
-                  ),
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(0.0),
-                      ),
-                      // minimumSize: Size(200, 200), // Make it square
-                      // padding: EdgeInsets.all(10),
-                    ),
-                    icon: CustomIcon(icon: Icons.upload_file),
-                    label: CustomText(text: "Upload Files"),
-                    onPressed: () => Navigator.pushReplacementNamed(context,CreateSuiteKpiForm.routeName, arguments: {'committeeId': committeeId},),
-                  ),
-                )
               ],
             ),
           );

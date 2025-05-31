@@ -1460,7 +1460,7 @@ class MeetingPageProvider extends ChangeNotifier{
     user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
     final Map<String, String>  queryParams = {
       if (published) 'published': 'true',
-      if (unpublished) 'unpublished': 'true',
+      // if (unpublished) 'unpublished': 'true',
       if (archived) 'archived': 'true',
       if (yearSelected != null) 'yearSelected': yearSelected,
     };

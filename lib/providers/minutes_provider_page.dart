@@ -74,56 +74,7 @@ class MinutesProviderPage extends ChangeNotifier{
     }
   }
 
-  // Method to submit the data
-  Future<void> submitAgendaDetails(Map<String, dynamic> data) async {
-    setLoading(true);
-    log.i(data);
-    final response = await networkHandler.post1('/insert-agenda-details', data);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      // log.d('Data submitted successfully');
-      log.d(response.body);
-      var responseData = json.decode(response.body);
-
-      var responseMinuteData = responseData['data'];
-      _minute = Minute.fromJson(responseMinuteData['minute']);
-      log.d(_minute);
-      minutesData!.minutes!.add(_minute);
-      log.d(responseData['data']);
-      setLoading(true);
-      notifyListeners();
-
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      log.d('Failed to submit data');
-      log.d(response.body);
-    }
-    setLoading(false);
-    notifyListeners();
-  }
-
-  Future<void> insertMinute(Map<String, dynamic> data)async{
-    var response = await networkHandler.post1('/insert-new-minute', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("insert new minute response statusCode == 200");
-      var responseData = json.decode(response.body) ;
-      var responseMinuteData = responseData['data'];
-      _minute = Minute.fromJson(responseMinuteData['minute']);
-      minutesData!.minutes!.add(_minute);
-      log.d(minutesData!.minutes!.length);
-      setIsBack(true);
-      setLoading(true);
-      notifyListeners();
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      log.d("insert new minute response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
-    }
-  }
 
   Future<void> insertMinuteFile(Map<String, dynamic> data)async{
     setLoading(true);
@@ -174,29 +125,6 @@ class MinutesProviderPage extends ChangeNotifier{
     }
   }
 
-  Future<void> removeMinute(Minute deleteMinute)async{
-    setLoading(true);
-    final index = minutesData!.minutes!.indexOf(deleteMinute);
-    Minute minute = minutesData!.minutes![index];
-    String minuteId =  minute.minuteId.toString();
-    Map<String, dynamic> data = {"minute_id": minuteId};
-    notifyListeners();
-    var response = await networkHandler.post1('/delete-minutes-by-id', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("deleted minute response statusCode == 200");
-      minutesData!.minutes!.remove(minute);
-      log.d(minutesData!.minutes!.length);
-      setIsBack(true);
-      setLoading(false);
-      notifyListeners();
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      log.d(json.decode(response.body)['message']);
-      log.d(response.statusCode);
-    }
-  }
 
   Future<Map<String, dynamic>>  makeSignedMinute(Map<String, dynamic> data)async{
     var result;

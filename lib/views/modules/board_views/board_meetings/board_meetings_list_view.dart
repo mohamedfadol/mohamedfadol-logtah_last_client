@@ -146,22 +146,22 @@ class _BoardMeetingsListViewState extends State<BoardMeetingsListView> {
                         SizedBox(width: 7.0),
                         CombinedCollectionBoardCommitteeDataDropDownList(),
                         Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: showUnPublished ? Colour().buttonBackGroundRedColor : Colors.grey,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<MeetingPageProvider>()
-                                .toggleUnPublished();
-                          },
-                          child: _buildContainer(
-                            text: 'Unpublished',
-                            width: 150,
-                            theme: theme,
-                          ),
-                        ),
-                        SizedBox(width: 7.0),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: showUnPublished ? Colour().buttonBackGroundRedColor : Colors.grey,
+                        //   ),
+                        //   onPressed: () {
+                        //     context
+                        //         .read<MeetingPageProvider>()
+                        //         .toggleUnPublished();
+                        //   },
+                        //   child: _buildContainer(
+                        //     text: 'Unpublished',
+                        //     width: 150,
+                        //     theme: theme,
+                        //   ),
+                        // ),
+                        // SizedBox(width: 7.0),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:

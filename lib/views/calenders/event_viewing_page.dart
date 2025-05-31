@@ -55,10 +55,10 @@ class EventViewingPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
       ),
-      onPressed: () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => CommitteeEventEditingPage(event: event)
-          )
-      ) ,
+      onPressed: () {
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CommitteeEventEditingPage(event: event)));
+        Navigator.of(context).pop();
+      } ,
       icon: CustomIcon(icon: Icons.edit,size:25)
     ),
 

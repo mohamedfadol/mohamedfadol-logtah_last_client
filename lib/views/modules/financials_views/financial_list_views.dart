@@ -66,17 +66,6 @@ class _FinancialListViewsState extends State<FinancialListViews> {
 
     return Scaffold(
       appBar: Header(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateFinancialForm(committeeId: committeeId)));
-        },
-        child: CustomIcon(
-          icon: Icons.add,
-          size: 30.0,
-          color: Colors.white,
-        ),
-        backgroundColor: Colour().buttonBackGroundRedColor,
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
@@ -314,26 +303,7 @@ class _FinancialListViewsState extends State<FinancialListViews> {
                                                     horizontalPadding:
                                                     10.0,
                                                     callFunction:() { dialogToMakeSignFinancial(financial);})),
-                                            PopupMenuItem<int>(
-                                                value: 4,
-                                                child:
-                                                CustomElevatedButton(
-                                                  verticalPadding: 0.0,
-                                                  text: AppLocalizations
-                                                      .of(context)!
-                                                      .delete,
-                                                  icon: Icons
-                                                      .restore_from_trash_outlined,
-                                                  textColor:
-                                                  Colors.white,
-                                                  buttonBackgroundColor:
-                                                  Colors.red,
-                                                  horizontalPadding:
-                                                  10.0,
-                                                  callFunction: () {
-                                                    dialogDeleteFinancial(financial);
-                                                  },
-                                                )),
+
                                           ]),
                                     ),
                                   ]))
@@ -477,90 +447,6 @@ class _FinancialListViewsState extends State<FinancialListViews> {
     );
   }
 
-
-  Future dialogDeleteFinancial(FinancialModel financial) => showDialog(
-    // barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                insetPadding: const EdgeInsets.symmetric(horizontal: 100),
-                title: Center(
-                    child: CustomText(
-                        text:
-                        "${AppLocalizations.of(context)!.are_you_sure_to_delete} ${financial?.financialEnglishName ?? financial?.financialArabicName ?? 'N/A'} ?",
-                        color: Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                content: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.yes_delete,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.check, color: Colors.white),
-                              onPressed: () => removeFinancial(financial),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            ),
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.no_cancel,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.clear, color: Colors.white),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              );
-            });
-      });
-
-  void removeFinancial(FinancialModel financial)async {
-    final providerFinancial = Provider.of<FinancialPageProvider>(context, listen: false);
-     await providerFinancial.removeFinancial(financial);
-    if (providerFinancial.isBack == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(text: AppLocalizations.of(context)!.remove_minute_done),
-          backgroundColor: Colors.greenAccent,
-        ),
-      );
-        Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(
-              text: AppLocalizations.of(context)!.remove_minute_failed),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    }
-  }
 
   Future dialogToMakeSignFinancial(FinancialModel financial) => showDialog(
     // barrierDismissible: false,

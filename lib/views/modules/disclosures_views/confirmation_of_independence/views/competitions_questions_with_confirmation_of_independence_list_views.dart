@@ -18,8 +18,6 @@ import '../../../../../widgets/loading_sniper.dart';
 import '../../disclosures_how_menus.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
-import '../forms/competitions_with_confirmation_of_independence_form.dart';
-import '../forms/confirmation_of_independence_competitions_questions_member_questionnaire.dart';
 import 'competition_member_with_confirmation_of_independence_views.dart';
 
 class CompetitionsQuestionsWithConfirmationOfIndependenceListViews extends StatefulWidget {
@@ -54,17 +52,6 @@ class _CompetitionsQuestionsWithConfirmationOfIndependenceListViewsState extends
     print("CompetitionsQuestionsWithConfirmationOfIndependenceListViews $committeeId");
     return Scaffold(
       appBar: Header(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CompetitionsWithConfirmationOfIndependenceForm(committeeId: committeeId)));
-        },
-        child: CustomIcon(
-          icon: Icons.add,
-          size: 30.0,
-          color: Colors.white,
-        ),
-        backgroundColor: Colour().buttonBackGroundRedColor,
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
@@ -218,26 +205,7 @@ class _CompetitionsQuestionsWithConfirmationOfIndependenceListViewsState extends
                                                       }
                                                   )
                                               ),
-                                              PopupMenuItem<int>(
-                                                  value: 4,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                    verticalPadding: 0.0,
-                                                    text: AppLocalizations
-                                                        .of(context)!
-                                                        .delete,
-                                                    icon: Icons
-                                                        .restore_from_trash_outlined,
-                                                    textColor:
-                                                    Colors.white,
-                                                    buttonBackgroundColor:
-                                                    Colors.red,
-                                                    horizontalPadding:
-                                                    10.0,
-                                                    callFunction: () {
-                                                      dialogDeleteCompetition(competition);
-                                                    },
-                                                  )),
+
                                             ]),
                                       ),
                                     ]))
@@ -305,26 +273,6 @@ class _CompetitionsQuestionsWithConfirmationOfIndependenceListViewsState extends
                       color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 15.0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)),
-                      color: Colour().buttonBackGroundRedColor,
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmationOfIndependenceCompetitionsQuestionsMemberQuestionnaire(committeeId: committeeId)));
-                      },
-                      child: CustomText(
-                        text: 'Competition Questionnaire For Member Confirmation Of Independence',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
 
                   const SizedBox(
                     width: 5.0,
@@ -375,94 +323,6 @@ class _CompetitionsQuestionsWithConfirmationOfIndependenceListViewsState extends
           );
         }
     );
-  }
-
-
-
-  Future dialogDeleteCompetition(CompetitionConfirmationOfIndependenceModel competition) => showDialog(
-    // barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                insetPadding: const EdgeInsets.symmetric(horizontal: 100),
-                title: Center(
-                    child: CustomText(
-                        text:
-                        "${AppLocalizations.of(context)!.are_you_sure_to_delete} ${competition?.competitionEnName ?? competition?.competitionArName ?? 'N/A'} ?",
-                        color: Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                content: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.yes_delete,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.check, color: Colors.white),
-                              onPressed: () => removeCompetitionConfirmationOfIndependence(competition),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            ),
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.no_cancel,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.clear, color: Colors.white),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              );
-            });
-      }
-  );
-
-
-  void removeCompetitionConfirmationOfIndependence(CompetitionConfirmationOfIndependenceModel competition)async {
-    final providerCompetition = Provider.of<CompetitionProviderPage>(context, listen: false);
-    await providerCompetition.removeCompetitionConfirmationOfIndependence(competition);
-    if (providerCompetition.isBack == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(text: AppLocalizations.of(context)!.remove_minute_done),
-          backgroundColor: Colors.greenAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(
-              text: AppLocalizations.of(context)!.remove_minute_failed),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    }
   }
 
   buildEmptyMessage(String message) {

@@ -139,9 +139,6 @@ class CommitteeProviderPage extends ChangeNotifier{
   }
 
 
-
-
-
   Future getListOfCommitteesData() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     user =  User.fromJson(json.decode(prefs.getString("user")!)) ;

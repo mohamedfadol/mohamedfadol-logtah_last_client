@@ -1,8 +1,6 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:diligov_members/models/annual_audit_report_model.dart';
-import 'package:diligov_members/utility/upload_annual_audi_local_file_processing.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -176,34 +174,7 @@ class PDFApi {
   }
 
 
-  // Method to retrieve a file from local storage
-  static Future<File?> retrieveFileAnnualAudit(BuildContext context,String fileName, AnnualAuditReportModel annual_audit_report) async {
-    try {
-      Directory? directory;
-      if (Platform.isAndroid) {
-        directory = await getExternalStorageDirectory();
-        directory = Directory('${directory!.path}/Documents');
-      } else {
-        directory = await getApplicationDocumentsDirectory();
-      }
 
-      final filePath = '${directory.path}/$fileName';
-      final file = File(filePath);
-      print("filefilefilefilefilefilefile $filePath");
-
-      // Check if the file exists
-      if (await file.exists()) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadAnnualAudiLocalFileProcessing(path: filePath, annual_audit: annual_audit_report,)));
-        print("file exists  $filePath");
-        // return file;
-      } else {
-        throw Exception("File not found");
-      }
-    } catch (e) {
-      print("Error retrieving file: $e");
-      return null;
-    }
-  }
 
   static Future<bool> requestPermission() async {
     if (Platform.isAndroid) {

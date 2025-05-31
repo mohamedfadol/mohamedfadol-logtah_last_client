@@ -5,7 +5,6 @@ import 'package:diligov_members/views/auth/reset_password_screen.dart';
 import 'package:diligov_members/views/boards_views/boards_list_views.dart';
 import 'package:diligov_members/views/boards_views/quick_access_board_list_view.dart';
 import 'package:diligov_members/views/calenders/calendar_page.dart';
-import 'package:diligov_members/views/committee_views/annual_audit_report/forms/build_annual_audit_report_form_card.dart';
 import 'package:diligov_members/views/committee_views/calenders/committee_calendar_page.dart';
 import 'package:diligov_members/views/committee_views/committee_list.dart';
 import 'package:diligov_members/views/committee_views/committee_resolutions_views/committee_resolutions_list_views.dart';
@@ -19,6 +18,7 @@ import 'package:diligov_members/views/modules/actions_tracker_view/actions_track
 import 'package:diligov_members/views/committee_views/annual_audit_report/annual_audit_report_list.dart';
 import 'package:diligov_members/views/modules/disclosures_views/competitions/views/competitions_questions_with_company_list_views.dart';
 import 'package:diligov_members/views/modules/disclosures_views/confirmation_of_independence/views/competitions_questions_with_confirmation_of_independence_list_views.dart';
+import 'package:diligov_members/views/modules/disclosures_views/disclosure_list_for_all_list.dart';
 import 'package:diligov_members/views/modules/disclosures_views/disclosures_how_menus.dart';
 import 'package:diligov_members/views/modules/disclosures_views/related_parties/views/competitions_questions_with_related_parties_list_views.dart';
 import 'package:diligov_members/views/modules/performance_reward/performance_reward_list_view.dart';
@@ -85,13 +85,13 @@ class AppRoutes {
     FinancialListViews.routeName: (context) =>  FinancialListViews(),
     CommitteesAnnualAuditReportListView.routeName: (context) =>  CommitteesAnnualAuditReportListView(),
     DisclosureListViews.routeName: (context) =>  DisclosureListViews(),
+    DisclosureListForAllList.routeName: (context) =>  DisclosureListForAllList(),
     CommitteeResolutionsListViews.routeName: (context) =>  CommitteeResolutionsListViews(),
     "/notes": (context) =>  NoteListViews(),
     BoardMeetingsListView.routeName: (context) =>  BoardMeetingsListView(),
     PasswordScreen.routeName: (context) =>  PasswordScreen(),
     ResetPasswordScreen.routeName: (context) =>  ResetPasswordScreen(),
     BuildMeetingFormCard.routeName: (context) =>  BuildMeetingFormCard(),
-    BuildAnnualAuditReportFormCard.routeName: (context) =>  BuildAnnualAuditReportFormCard(),
 
     FullScreenSearchViews.routeName: (context) =>  FullScreenSearchViews(searchResults: [],),
 

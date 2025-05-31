@@ -62,45 +62,29 @@ class DisclosurePageProvider extends ChangeNotifier {
     }
   }
 
-
-  Future<void> insertDisclosure(Map<String, dynamic> data)async{
-    setLoading(true);
-    var response = await networkHandler.post1('/create-new-disclosure', data);
+  Future getListOfAllDisclosures(_yearSelected) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
+    final Map<String, String>  queryParams = {
+      'business_id': user.businessId.toString(),
+      'yearSelected': _yearSelected
+    };
+    var response = await networkHandler.post1('/get-list-of-all-disclosures', queryParams);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("create-new-disclosures response statusCode == 200");
-      var responseData = json.decode(response.body) ;
+      log.d("get-list-disclosures form provider response statusCode == 200");
+      var responseData = json.decode(response.body);
       var responseDisclosureData = responseData['data'];
-      _disclosure = DisclosureModel.fromJson(responseDisclosureData['disclosure']);
-      disclosuresData!.disclosures!.add(_disclosure);
+      disclosuresData = Disclosures.fromJson(responseDisclosureData);
       log.d(disclosuresData!.disclosures!.length);
-      setIsBack(true);
+      notifyListeners();
     } else {
-      log.d("create-new-disclosures response statusCode unknown");
+      log.d("get-list-disclosures form provider response statusCode unknown");
       log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
+      log.d(json.decode(response.body)['message']);
     }
-    setLoading(false);
   }
 
-  Future<void> removeDisclosure(DisclosureModel deleteDisclosure)async{
-    final index = disclosuresData!.disclosures!.indexOf(deleteDisclosure);
-    DisclosureModel disclosure = disclosuresData!.disclosures![index];
-    String disclosureId =  disclosure.disclosureId.toString();
-    Map<String, dynamic> data = {"disclosure_id": disclosureId};
-    var response = await networkHandler.post1('/delete-disclosure-by-id', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("deleted disclosures-by-id response statusCode == 200");
-      disclosuresData!.disclosures!.remove(disclosure);
-      log.d(disclosuresData!.disclosures!.length);
-      setIsBack(true);
-    } else {
-      log.d(json.decode(response.body)['message']);
-      log.d(response.statusCode);
-      setLoading(false);
-      setIsBack(false);
-    }
-    setLoading(false);
-  }
+
 
   Future<Map<String, dynamic>>  makeSignedDisclosure(Map<String, dynamic> data)async{
     var result;

@@ -76,33 +76,6 @@ class ResolutionsPageProvider extends ChangeNotifier{
     }
   }
 
-  Future<void> insertResolution(Map<String, dynamic> data)async{
-    setLoading(true);
-    notifyListeners();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    user =  User.fromJson(json.decode(prefs.getString("user")!)) ;
-    var response = await networkHandler.post1('/insert-new-resolution', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      setIsBack(true);
-      notifyListeners();
-      log.d("insert new resolution response statusCode == 200");
-      var responseData = json.decode(response.body) ;
-      var responseResolutionData = responseData['data'];
-      _resolution = Resolution.fromJson(responseResolutionData['resolution']);
-      resolutionsData!.resolutions!.add(_resolution);
-      log.d(resolutionsData!.resolutions!.length);
-      setIsBack(true);
-      setLoading(true);
-      notifyListeners();
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      log.d("insert new resolution response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
-    }
-  }
 
   Future<Map<String, dynamic>>  makeSignedResolution(Map<String, dynamic> data)async{
     var result;
@@ -139,30 +112,4 @@ class ResolutionsPageProvider extends ChangeNotifier{
     return result;
   }
 
-  Future<void>  removeResolution(Resolution deleteResolution)async{
-    final index = resolutionsData!.resolutions!.indexOf(deleteResolution);
-    Resolution resolution = resolutionsData!.resolutions![index];
-    String resolutionId =  resolution.resoultionId.toString();
-    Map<String, dynamic> data = {"resolution_id": resolutionId};
-    log.d(data);
-    notifyListeners();
-    var response = await networkHandler.post1('/delete-resolution-by-id', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("deleted resolution response statusCode == 200");
-      var responseData = json.decode(response.body) ;
-      var responseMinuteData = responseData['data'];
-      // _resolution = Resolution.fromJson(responseMinuteData['resolution']);
-      resolutionsData!.resolutions!.remove(resolution);
-      log.d(resolutionsData!.resolutions!.length);
-      setIsBack(true);
-      setLoading(true);
-      notifyListeners();
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      notifyListeners();
-      log.d(json.decode(response.body)['message']);
-      log.d(response.statusCode);
-    }
-  }
 }

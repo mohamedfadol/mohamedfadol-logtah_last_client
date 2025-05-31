@@ -1,8 +1,12 @@
 import 'dart:math';
 
 import 'package:diligov_members/providers/member_page_provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart' as Pie;
+
 import 'package:provider/provider.dart';
+import '../../colors.dart';
 import '../../core/domains/app_uri.dart';
 import '../../models/member.dart';
 import '../../providers/meeting_page_provider.dart';
@@ -51,6 +55,15 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
       _buildMemberGrid(),
       Center(child: MiniCalendarWidget()),
       Center(child: CustomText(text: "📂 Documents Widget Placeholder", fontSize: 18)),
+      Center(child: CustomText(text: "⚙️ Settings Panel Placeholder", fontSize: 18)),
+    ];
+  }
+
+  List<Widget> _buildChartsPages() {
+    return [
+      Center(child: RadarChartWidget()),
+      Center(child: RDStatusPieChart()),
+      Center(child: GroupedBarChartExample()),
       Center(child: CustomText(text: "⚙️ Settings Panel Placeholder", fontSize: 18)),
     ];
   }
@@ -116,6 +129,8 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final containerColor = isDarkMode ? Colour().darkContainerColor : Colour().lightContainerColor ;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -339,7 +354,7 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                         height: 500,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: containerColor,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [BoxShadow(color: Colors.black, blurRadius: 6, spreadRadius: 2)],
                         ),
@@ -431,7 +446,7 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                         height: 250,
                         child: Stack(
                           children: [
-                        if (provider.isVisibleQuickAccessInDashboard)
+                            if (provider.isVisibleQuickAccessInDashboard)
                             // The active page
                             Positioned.fill(
                               child: _buildPages()[provider.selectedPageIndex],
@@ -449,8 +464,8 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                                     onTap: () =>  provider.toggleSelectedPageIndexInDashboardVisibility(index),
                                     child: Container(
                                       margin:  EdgeInsets.symmetric(horizontal: 6),
-                                      width: 15,
-                                      height: 15,
+                                      width: 18,
+                                      height: 18,
                                       decoration: BoxDecoration(
                                         color: provider.selectedPageIndex == index ? Colors.red : Colors.grey,
                                         shape: BoxShape.circle,
@@ -465,11 +480,45 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                       ),
                     ),
 
-                    if(!provider.menuPressed)
+
                     Positioned(
                       top: 10,
-                      left: 20,
-                      child: RadarChartWidget()
+                      left: 50,
+                      child: SizedBox(
+                          width: 350,
+                          height: 300,
+                          child: Stack(
+                            children: [
+                              if (provider.isVisibleQuickAccessChartInDashboard)
+                              Positioned.fill(
+                                child: _buildChartsPages()[provider.selectedChartPageIndex],
+                              ),
+                              SizedBox(height: 30,),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(_buildChartsPages().length, (index) {
+                                    return GestureDetector(
+                                      onTap: () =>  provider.toggleSelectedChartPageIndexInDashboardVisibility(index),
+                                      child: Container(
+                                        margin:  EdgeInsets.symmetric(horizontal: 6),
+                                        width: 18,
+                                        height: 18,
+                                        decoration: BoxDecoration(
+                                          color: provider.selectedChartPageIndex == index ? Colors.red : Colors.grey,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ],
+                          )
+                      )
                   )
 
 
@@ -533,8 +582,10 @@ class RadarChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final containerColor = isDarkMode ? Colour().darkContainerColor : Colour().lightContainerColor ;
     return Container(
-      color: Colors.black12,
+      // color: Colors.black12,
       child: CustomPaint(
         size: Size(350, 350),
         painter: RadarChartPainter(data: sampleData),
@@ -542,7 +593,6 @@ class RadarChartWidget extends StatelessWidget {
     );
   }
 }
-
 
 class RadarChartPainter extends CustomPainter {
   final List<RadarData> data;
@@ -557,7 +607,7 @@ class RadarChartPainter extends CustomPainter {
     final radius = min(size.width, size.height) / 2.5;
     final angleStep = 2 * pi / data.length;
     final Paint gridPaint = Paint()
-      ..color = Colors.white
+      ..color = Colors.grey
       ..style = PaintingStyle.stroke;
 
     final Paint budgetPaint = Paint()
@@ -641,11 +691,138 @@ class RadarChartPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-
 class RadarData {
   final String label;
   final double budget;
   final double actual;
-
   RadarData(this.label, this.budget, this.actual);
 }
+
+
+class RDStatusPieChart extends StatelessWidget {
+  const RDStatusPieChart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Map<String, double> dataMap = {
+      "In Progress": 64,
+      "Completed": 25,
+      "Not Started": 11,
+    };
+
+    final colorList = <Color>[
+      Colors.blue[800]!,   // In Progress
+      Colors.blue[300]!,   // Completed
+      Colors.grey[400]!,   // Not Started
+    ];
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final containerColor = isDarkMode ? Colour().darkContainerColor : Colour().lightContainerColor ;
+    return Scaffold(
+      backgroundColor: containerColor,
+      body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+        child: Column(
+          children: [
+            CustomText(text:
+            "R&D Status",
+              fontWeight: FontWeight.bold,
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: Pie.PieChart(
+                dataMap: dataMap,
+                animationDuration: const Duration(milliseconds: 800),
+                chartRadius: 200,
+                colorList: colorList,
+                chartType: Pie.ChartType.disc,
+                ringStrokeWidth: 32,
+                chartValuesOptions: const Pie.ChartValuesOptions(
+                  showChartValuesInPercentage: true,
+                  showChartValueBackground: false,
+                  showChartValues: true,
+                  chartValueStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                legendOptions: const Pie.LegendOptions(
+                  showLegends: true,
+                  legendPosition: Pie.LegendPosition.bottom,
+                  showLegendsInRow: true,
+                  legendTextStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+}
+
+
+
+
+class GroupedBarChartExample extends StatelessWidget {
+  const GroupedBarChartExample({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final containerColor = isDarkMode ? Colour().darkContainerColor : Colour().lightContainerColor ;
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.spaceAround,
+        maxY: 8,
+        barTouchData: BarTouchData(enabled: false),
+        titlesData: FlTitlesData(
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 28,
+              interval: 1,
+            ),
+          ),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) {
+
+                switch (value.toInt()) {
+                  case 0:
+                    return CustomText(text: 'Actual', color: containerColor);
+                  case 1:
+                    return CustomText(text: 'Budget', color: containerColor);
+                  default:
+                    return const SizedBox.shrink();
+                }
+              },
+              reservedSize: 40,
+            ),
+          ),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
+        gridData: FlGridData(show: true),
+        barGroups: _buildBarGroups(),
+      ),
+    );
+  }
+
+  List<BarChartGroupData> _buildBarGroups() {
+    return [
+      BarChartGroupData(x: 0, barRods: [
+        BarChartRodData(toY: 3, width: 14, color: Colors.grey[800]), // 2021
+        BarChartRodData(toY: 7, width: 14, color: Colors.red), // 2022
+      ], barsSpace: 6),
+      BarChartGroupData(x: 1, barRods: [
+        BarChartRodData(toY: 5, width: 14, color: Colors.grey[800]),
+        BarChartRodData(toY: 6, width: 14, color: Colors.red),
+      ], barsSpace: 6),
+    ];
+  }
+}
+

@@ -35,7 +35,7 @@ class _BoardCircleMenuState extends State<BoardCircleMenu> {
         ["icons/board_circle_menu_icons/annual_calendar_icon.png","Annual Calendar",ConstantName.calendarListView,"icons/iconsFroDarkMode/annual_calendar_icon_dark.png"],//
         ["icons/board_circle_menu_icons/meeting-light-mode.png","Board Meetings",ConstantName.boardMeetingsListView,"icons/board_circle_menu_icons/meeting-light-mode.png"],
         ["icons/board_circle_menu_icons/agenda_minutes_icon.png","Agenda & Minutes",ConstantName.minutesMeetingList,"icons/iconsFroDarkMode/agenda_minutes_icon_dark.png"],//
-        ["icons/board_circle_menu_icons/disclosures_icon.png","Disclosures",ConstantName.disclosureListViews,"icons/iconsFroDarkMode/disclosures_icon_dark.png"],//
+        ["icons/board_circle_menu_icons/disclosures_icon.png","Disclosures",ConstantName.disclosureListForAllList,"icons/iconsFroDarkMode/disclosures_icon_dark.png"],//
         ["icons/homepage_circle_menu_icons/reports_icon.png","Annual Report",ConstantName.committeesAnnualAuditReportListView,"icons/iconsFroDarkMode/annual_report_icon_dark.png"],//
         ["icons/board_circle_menu_icons/committee_icon.png","Committees","/Committees","icons/iconsFroDarkMode/committee_icon_dark.png"],//
         ["icons/homepage_circle_menu_icons/financials_icon.png","Financials",ConstantName.financialListViews,"icons/iconsFroDarkMode/financials_icon_dark.png"],//

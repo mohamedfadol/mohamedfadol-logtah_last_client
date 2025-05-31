@@ -436,7 +436,7 @@ class _AgendaDetailsWithMinutesState extends State<AgendaDetailsWithMinutes> {
     };
     log.i(data);
     // Update provider with collected data and submit to backend
-    await providerM.submitAgendaDetails(data);
+    // await providerM.submitAgendaDetails(data);
     provider.setLoading(false);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(

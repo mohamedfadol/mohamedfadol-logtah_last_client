@@ -144,25 +144,6 @@ class PerformanceRewardProviderPage extends ChangeNotifier{
     }
   }
 
-  Future<void> insertNewPerformanceRewardData(Map<String, dynamic> data)async{
-    setLoading(true);
-    var response = await networkHandler.post1('/insert-new-performance', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("insert new performance response statusCode == 200");
-      var responseData = json.decode(response.body) ;
-      var responsePerformanceRewardData = responseData['data'];
-      _performanceReward = PerformanceRewardModel.fromJson(responsePerformanceRewardData['performance_reward']);
-      setPerformanceRewardModel(_performanceReward);
-      performanceRewardData!.performanceRewards!.add(_performanceReward);
-      log.d(performanceRewardData!.performanceRewards!.length);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      log.d("insert new performance response statusCode unknown");
-      log.d(response.statusCode);
-      print(json.decode(response.body)['message']);
-    }
-  }
 
   Future<void> getMemberPerformanceForSigningOrder(PerformanceRewardModel performance)async{
     // setLoading(true);
@@ -185,28 +166,6 @@ class PerformanceRewardProviderPage extends ChangeNotifier{
     }
   }
 
-
-  Future<void> removePerformance(PerformanceRewardModel deletePerformance)async{
-    setLoading(true);
-    final index = performanceRewardData!.performanceRewards!.indexOf(deletePerformance);
-    PerformanceRewardModel performance = performanceRewardData!.performanceRewards![index];
-    String performanceId =  performance.performanceId.toString();
-    Map<String, dynamic> data = {"performance_id": performanceId};
-
-    var response = await networkHandler.post1('/delete-performance-by-id', data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      log.d("deleted performance response statusCode == 200");
-      performanceRewardData!.performanceRewards!.remove(performance);
-      log.d(performanceRewardData!.performanceRewards!.length);
-      setIsBack(true);
-      setLoading(false);
-    } else {
-      setLoading(false);
-      setIsBack(false);
-      log.d(json.decode(response.body)['message']);
-      log.d(response.statusCode);
-    }
-  }
 
   Future<void> processPdfWorkflow(PerformanceRewardModel performance,String url, int pageCount, String uploadUrl) async {
     try {

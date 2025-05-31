@@ -74,6 +74,7 @@ class MenusProvider with ChangeNotifier {
     _menuPressed = !_menuPressed;
     _isVisibleMeetingInDashboard = false;
     _isVisibleQuickAccessInDashboard = false;
+    _isVisibleQuickAccessChartInDashboard = false;
     notifyListeners();
   }
 
@@ -106,10 +107,24 @@ class MenusProvider with ChangeNotifier {
 
   int _selectedPageIndex = 0;
   int get selectedPageIndex => _selectedPageIndex;
-
   void toggleSelectedPageIndexInDashboardVisibility(int index) {
     _selectedPageIndex = index;
     _isVisibleQuickAccessInDashboard = true;
+    _isVisibleQuickAccessChartInDashboard = false;
+    _menuPressed = false;
+    notifyListeners();
+  }
+
+  bool _isVisibleQuickAccessChartInDashboard = false;
+  bool get isVisibleQuickAccessChartInDashboard => _isVisibleQuickAccessChartInDashboard;
+
+  int _selectedChartPageIndex = 0;
+  int get selectedChartPageIndex => _selectedChartPageIndex;
+  void toggleSelectedChartPageIndexInDashboardVisibility(int index) {
+    _selectedChartPageIndex = index;
+    _isVisibleQuickAccessChartInDashboard = true;
+    _isVisibleQuickAccessInDashboard = false;
+    _menuPressed = false;
     notifyListeners();
   }
 

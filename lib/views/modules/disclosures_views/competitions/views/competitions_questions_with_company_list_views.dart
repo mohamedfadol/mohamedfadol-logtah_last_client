@@ -16,9 +16,6 @@ import '../../../../../widgets/custome_text.dart';
 import '../../../../../widgets/dropdown_string_list.dart';
 import '../../../../../widgets/loading_sniper.dart';
 import '../../disclosures_how_menus.dart';
-import '../forms/competition_member_questionnaire_screen.dart';
-import '../forms/competitions_with_company_form.dart';
-import '../forms/edit_competition_form.dart';
 import 'competition_member_with_company_list_views.dart';
 
 class CompetitionsQuestionsWithCompanyListViews extends StatefulWidget {
@@ -54,17 +51,6 @@ class _CompetitionsQuestionsWithCompanyListViewsState extends State<Competitions
     print("CompetitionsQuestionsWithCompanyListViews $committeeId");
     return Scaffold(
       appBar: Header(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CompetitionsWithCompanyForm(committeeId: committeeId)));
-        },
-        child: CustomIcon(
-          icon: Icons.add,
-          size: 30.0,
-          color: Colors.white,
-        ),
-        backgroundColor: Colour().buttonBackGroundRedColor,
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
@@ -138,16 +124,6 @@ class _CompetitionsQuestionsWithCompanyListViewsState extends State<Competitions
                                         color: Colour().lightBackgroundColor,
                                       ),
                                       tooltip: "owner that add by"),
-                                  DataColumn(
-                                      label: CustomText(
-                                        text:
-                                        AppLocalizations.of(context)!.actions,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                        color: Colour().lightBackgroundColor,
-                                      ),
-                                      tooltip:
-                                      "show buttons for functionality members"),
                                 ],
                                 rows: provider!.competitionsData!.competitions!
                                     .map((CompetitionModel competition) =>
@@ -182,63 +158,6 @@ class _CompetitionsQuestionsWithCompanyListViewsState extends State<Competitions
                                           fontWeight: FontWeight.bold,fontSize: 14.0,softWrap: false,
                                           maxLines: 1,overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      DataCell(
-                                        PopupMenuButton<int>(
-                                            padding:
-                                            EdgeInsets.only(bottom: 5.0),
-                                            icon: CustomIcon(
-                                              icon: Icons.settings,
-                                              size: 30.0,
-                                            ),
-                                            onSelected: (value) => 0,
-                                            itemBuilder: (context) => [
-                                              PopupMenuItem<int>(
-                                                  value: 0,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                      verticalPadding:
-                                                      0.0,
-                                                      text: AppLocalizations
-                                                          .of(
-                                                          context)!
-                                                          .edit,
-                                                      icon: Icons
-                                                          .remove_red_eye_outlined,
-                                                      textColor:
-                                                      Colors
-                                                          .white,
-                                                      buttonBackgroundColor:
-                                                      Colors.red,
-                                                      horizontalPadding:
-                                                      10.0,
-                                                      callFunction:
-                                                          () {
-                                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditCompetitionForm(committeeId: competition.committee!.id.toString())));
-                                                      }
-                                                  )
-                                              ),
-                                              PopupMenuItem<int>(
-                                                  value: 4,
-                                                  child:
-                                                  CustomElevatedButton(
-                                                    verticalPadding: 0.0,
-                                                    text: AppLocalizations
-                                                        .of(context)!
-                                                        .delete,
-                                                    icon: Icons
-                                                        .restore_from_trash_outlined,
-                                                    textColor:
-                                                    Colors.white,
-                                                    buttonBackgroundColor:
-                                                    Colors.red,
-                                                    horizontalPadding:
-                                                    10.0,
-                                                    callFunction: () {
-                                                      dialogDeleteCompetition(competition);
-                                                    },
-                                                  )),
-                                            ]),
                                       ),
                                     ]))
                                     .toList(),
@@ -305,26 +224,6 @@ class _CompetitionsQuestionsWithCompanyListViewsState extends State<Competitions
                       color: Colors.grey,
                     ),
                   ),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 15.0),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(0)),
-                      color: Colour().buttonBackGroundRedColor,
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CompetitionMemberQuestionnaireScreen(committeeId: committeeId)));
-                      },
-                      child: CustomText(
-                        text: 'Competition Questionnaire For Member Company',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
 
                   const SizedBox(
                     width: 5.0,
@@ -375,94 +274,6 @@ class _CompetitionsQuestionsWithCompanyListViewsState extends State<Competitions
           );
         }
     );
-  }
-
-
-
-  Future dialogDeleteCompetition(CompetitionModel competition) => showDialog(
-    // barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return AlertDialog(
-                backgroundColor: Colors.white,
-                insetPadding: const EdgeInsets.symmetric(horizontal: 100),
-                title: Center(
-                    child: CustomText(
-                        text:
-                        "${AppLocalizations.of(context)!.are_you_sure_to_delete} ${competition?.competitionEnName ?? competition?.competitionArName ?? 'N/A'} ?",
-                        color: Colors.red,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                content: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                      color: Colors.white,
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.yes_delete,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.check, color: Colors.white),
-                              onPressed: () => removeCompetition(competition),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            ),
-                            ElevatedButton.icon(
-                              label: CustomText(
-                                text: AppLocalizations.of(context)!.no_cancel,
-                                color: Colors.white,
-                              ),
-                              icon: const Icon(Icons.clear, color: Colors.white),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0)),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              );
-            });
-      }
-  );
-
-
-  void removeCompetition(CompetitionModel competition)async {
-    final providerCompetition = Provider.of<CompetitionProviderPage>(context, listen: false);
-    await providerCompetition.removeCompetition(competition);
-    if (providerCompetition.isBack == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(text: AppLocalizations.of(context)!.remove_minute_done),
-          backgroundColor: Colors.greenAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomText(
-              text: AppLocalizations.of(context)!.remove_minute_failed),
-          backgroundColor: Colors.redAccent,
-        ),
-      );
-      Navigator.of(context).pop();
-    }
   }
 
   buildEmptyMessage(String message) {
